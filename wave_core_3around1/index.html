@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Wave Core // 3 Around 1</title>
+<style>
+:root{--bg:#05070b;--ink:#f5f7fb;--muted:#8c94a8;--red:#ff2a3d;--cyan:#16f4ff;--violet:#9b5cff;--lime:#bcff2e;--white:#fff;--steel:#141923;--line:#252c3a;--amber:#ffb000}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 20%,#111827 0,#05070b 48%,#020306 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;overflow-x:hidden}.noise:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.09;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.5"/></svg>');mix-blend-mode:screen}.wrap{max-width:1240px;margin:0 auto;padding:28px}.hero{min-height:86vh;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}.kicker{font-family:ui-monospace,Menlo,monospace;color:var(--cyan);letter-spacing:.28em;text-transform:uppercase;font-size:12px}.title{font-size:clamp(54px,9vw,132px);line-height:.82;margin:12px 0;text-transform:uppercase;letter-spacing:-.08em;font-weight:950}.title span{display:block}.title .ghost{-webkit-text-stroke:1px var(--red);color:transparent;text-shadow:0 0 22px rgba(255,42,61,.35)}.lead{font-size:clamp(18px,2.2vw,25px);line-height:1.35;color:#d7dbea;max-width:680px}.panel{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 80px rgba(0,0,0,.45);border-radius:22px;padding:20px;position:relative;overflow:hidden}.panel:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 0 45%,rgba(255,255,255,.08) 48%,transparent 52%);transform:translateX(-120%);animation:scan 7s infinite}@keyframes scan{60%,100%{transform:translateX(120%)}}canvas{width:100%;height:auto;display:block;background:#030509;border-radius:16px;border:1px solid rgba(255,255,255,.1)}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.control{background:#090d15;border:1px solid #202838;border-radius:14px;padding:12px}.control label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em}.control input{width:100%;accent-color:var(--cyan)}.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}button{background:#f4f4f4;color:#05070b;border:0;border-radius:999px;padding:12px 16px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;cursor:pointer}button.secondary{background:#111827;color:#fff;border:1px solid #2d3748}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:40px 0}.card{background:#080b12;border:1px solid #222a39;border-radius:18px;padding:18px;min-height:180px}.card h3{margin:0 0 10px;font-size:18px;text-transform:uppercase;letter-spacing:.08em}.card p{color:#aeb6c8;line-height:1.55}.mono{font-family:ui-monospace,Menlo,monospace;color:#e9edf8;background:#020306;border:1px solid #222a39;border-radius:16px;padding:18px;overflow:auto}.bar{height:10px;background:#0b1019;border:1px solid #273044;border-radius:999px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--red));box-shadow:0 0 24px var(--cyan)}.section{padding:46px 0;border-top:1px solid rgba(255,255,255,.08)}h2{font-size:clamp(32px,5vw,72px);line-height:.9;letter-spacing:-.06em;margin:0 0 18px;text-transform:uppercase}.spec{display:grid;grid-template-columns:260px 1fr;gap:12px;border-top:1px solid #222a39}.spec div{padding:14px 0;border-bottom:1px solid #222a39}.spec .k{color:var(--cyan);font-family:ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;font-size:12px}.footer{padding:40px 0;color:#7c8498;font-family:ui-monospace,Menlo,monospace}@media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.spec{grid-template-columns:1fr}.title{font-size:64px}}</style>
+</head>
+<body class="noise">
+<div class="wrap">
+<section class="hero">
+<div>
+<div class="kicker">WAVE CORE PROTOTYPE // SIMULATION ONLY</div>
+<h1 class="title"><span>3 Around</span><span class="ghost">1 Center</span></h1>
+<p class="lead">A fixed centerline carrier fires through a 27-gate mountain bore while three phase waves orbit it. At gate 27, the packet compresses into 0, then reappears as 27 on the far side.</p>
+<div class="btns"><button id="fireBtn">Fire pulse</button><button class="secondary" id="resetBtn">Reset</button></div>
+</div>
+<div class="panel">
+<canvas id="sim" width="900" height="620"></canvas>
+<div class="controls">
+<div class="control"><label>speed <span id="speedVal">1.00</span></label><input id="speed" type="range" min="0.25" max="3" step="0.01" value="1"></div>
+<div class="control"><label>orbit radius <span id="radiusVal">42</span></label><input id="radius" type="range" min="16" max="90" step="1" value="42"></div>
+<div class="control"><label>collapse <span id="collapseVal">0.72</span></label><input id="collapse" type="range" min="0.1" max="1" step="0.01" value="0.72"></div>
+<div class="control"><label>phase step <span>.01</span></label><input disabled type="range" value="1"></div>
+</div>
+</div>
+</section>
+<section class="section">
+<h2>The Rule</h2>
+<div class="mono">CENTER = 1 fixed carrier, always dead center\nORBIT = 3 waves around 1, phase-separated by 120°\nGATES = 27 descent gates through the mountain\nCOLLAPSE = gate 27 becomes 0\nRELEASE = 0 becomes 27 on the far side\nLAW = one center every time; waves may orbit but not replace it</div>
+</section>
+<section class="section grid">
+<div class="card"><h3>1 Centerline</h3><p>The white carrier remains on the bore axis. It is the coherence reference: every colored wave rotates around it, but the center pulse never leaves the center.</p></div>
+<div class="card"><h3>3 Orbit Rails</h3><p>Three rails wrap around the carrier like a wave-beam helix. They represent phase, pressure, and envelope timing.</p></div>
+<div class="card"><h3>27→0→27</h3><p>The end of the tunnel is a singular gate. The packet folds to zero, then exits into a new 27-count domain.</p></div>
+</section>
+<section class="section">
+<h2>Live State</h2>
+<div class="spec">
+<div class="k">Gate</div><div id="gateTxt">0 / 27</div>
+<div class="k">Center</div><div>Locked: x-axis bore center, white carrier</div>
+<div class="k">Orbit</div><div>3 waves, 120° separation, rotating around center carrier</div>
+<div class="k">Boundary</div><div>Gate 27 compresses to 0, then re-expands as 27</div>
+<div class="k">Containment</div><div>No lateral bleed; orbit radius clamps inside mountain wall</div>
+</div>
+<div style="margin-top:18px" class="bar"><div class="fill" id="fill"></div></div>
+</section>
+<section class="footer">First-author symbolic optical simulator. Low-power visual model only; not a weapon, not a physical laser build instruction.</section>
+</div>
+<script>
+const c=document.getElementById('sim'),ctx=c.getContext('2d');
+let t=0, run=true, fired=false, pos=0, phase=0;
+const speed=document.getElementById('speed'),radius=document.getElementById('radius'),collapse=document.getElementById('collapse');
+const speedVal=document.getElementById('speedVal'),radiusVal=document.getElementById('radiusVal'),collapseVal=document.getElementById('collapseVal');
+const gateTxt=document.getElementById('gateTxt'),fill=document.getElementById('fill');
+speed.oninput=()=>speedVal.textContent=(+speed.value).toFixed(2);radius.oninput=()=>radiusVal.textContent=radius.value;collapse.oninput=()=>collapseVal.textContent=(+collapse.value).toFixed(2);
+document.getElementById('fireBtn').onclick=()=>{fired=true;run=true};document.getElementById('resetBtn').onclick=()=>{pos=0;phase=0;fired=false};
+function lerp(a,b,u){return a+(b-a)*u}
+function drawMountain(){
+ const w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ const grd=ctx.createLinearGradient(0,0,w,h);grd.addColorStop(0,'#070a10');grd.addColorStop(.5,'#101520');grd.addColorStop(1,'#020306');ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
+ ctx.save();ctx.translate(0,h/2);
+ ctx.fillStyle='#0a0d14';ctx.beginPath();ctx.moveTo(0,-230);ctx.lineTo(160,-120);ctx.lineTo(290,-210);ctx.lineTo(450,-92);ctx.lineTo(610,-210);ctx.lineTo(760,-130);ctx.lineTo(900,-230);ctx.lineTo(900,230);ctx.lineTo(0,230);ctx.closePath();ctx.fill();
+ ctx.strokeStyle='rgba(255,255,255,.09)';ctx.lineWidth=2;for(let y=-160;y<=160;y+=40){ctx.beginPath();ctx.moveTo(50,y);ctx.bezierCurveTo(260,y+20,550,y-20,850,y);ctx.stroke()}
+ // bore
+ ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=86;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(60,0);ctx.lineTo(840,0);ctx.stroke();ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=70;ctx.beginPath();ctx.moveTo(60,0);ctx.lineTo(840,0);ctx.stroke();
+ // gates
+ for(let i=0;i<=27;i++){let x=lerp(70,830,i/27);ctx.strokeStyle=i===27?'rgba(255,42,61,.9)':'rgba(22,244,255,.18)';ctx.lineWidth=i===27?3:1;ctx.beginPath();ctx.moveTo(x,-45);ctx.lineTo(x,45);ctx.stroke(); if(i%3===0){ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='11px monospace';ctx.fillText(i,x-6,65)}}
+ ctx.restore();
+}
+function drawPulse(){
+ const w=c.width,h=c.height;let u=pos/27;let x=lerp(70,830,u), y=h/2;
+ const gate=Math.min(27,Math.floor(pos));gateTxt.textContent=gate+' / 27'+(gate>=27?' = 0 = 27':'');fill.style.width=(u*100)+'%';
+ let collapseZone=Math.max(0,(u-.88)/.12);let amp=(+radius.value)*(1-collapseZone*(+collapse.value));
+ // center dead beam trail
+ ctx.save();ctx.globalCompositeOperation='lighter';
+ ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(70,y);ctx.lineTo(x,y);ctx.stroke();
+ // 3 orbit waves along path
+ const colors=['#16f4ff','#ff2a3d','#bcff2e'];
+ for(let k=0;k<3;k++){
+   ctx.strokeStyle=colors[k];ctx.lineWidth=2;ctx.shadowColor=colors[k];ctx.shadowBlur=14;ctx.beginPath();
+   for(let s=0;s<=u;s+=0.005){let xx=lerp(70,830,s);let yy=y+Math.sin(s*Math.PI*18+phase+k*Math.PI*2/3)*amp*(.35+.65*s); if(s===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)}ctx.stroke();
+   let oy=Math.sin(u*Math.PI*18+phase+k*Math.PI*2/3)*amp;ctx.fillStyle=colors[k];ctx.beginPath();ctx.arc(x,y+oy,7,0,Math.PI*2);ctx.fill();
+ }
+ // center always dead center
+ ctx.shadowColor='#fff';ctx.shadowBlur=26;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,10+8*collapseZone,0,Math.PI*2);ctx.fill();
+ if(u>=.985){ctx.strokeStyle='rgba(255,255,255,.95)';ctx.lineWidth=2;for(let r=18;r<100;r+=18){ctx.globalAlpha=1-r/120;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke()}ctx.globalAlpha=1;ctx.fillStyle='rgba(255,42,61,.9)';ctx.font='bold 34px monospace';ctx.fillText('0',x-10,y-54);ctx.fillStyle='rgba(22,244,255,.9)';ctx.fillText('27',x+24,y-54)}
+ ctx.restore();
+}
+function loop(){t+=.016;phase+=.04*(+speed.value);if(fired){pos+=.08*(+speed.value);if(pos>=27.4){pos=0;phase+=Math.PI;fired=false}}drawMountain();drawPulse();requestAnimationFrame(loop)}loop();
+</script>
+</body></html>

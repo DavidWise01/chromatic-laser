@@ -1,0 +1,41 @@
+# LINEAR INFINITE COLLAPSE KERNEL
+# first-author symbolic optical simulation
+
+NAME: Linear Infinite Collapse
+GEOMETRY: 1 x 1 x INF
+SOURCE: four fixed 6-around-1 compass clusters collapsed into one axial rail
+
+RAIL:
+  axis: Z
+  width: 1
+  height: 1
+  length: unbounded / simulated finite viewport
+
+EMITTERS:
+  groups: 4
+  emitters_per_group: 6
+  total_emitters: 24
+  centers: inherited from N/S/E/W cluster centers, projected onto line
+
+FIRE_SEQUENCE:
+  6 x 4 x 3 x 2 x 1 = 0
+
+INTERPRETATION:
+  6 = local ring charge per group
+  4 = four directional stations aligned into one rail
+  3 = triple pulse gate
+  2 = paired compression rail
+  1 = centerline carrier
+  0 = collapse well / reset point
+
+RULES:
+  - all emitters are fixed in place
+  - no spin
+  - no cross-axis bleed
+  - phase step = 0.01
+  - all pulses travel along the same 1x1xINF centerline
+  - each stage compresses toward zero
+  - zero absorbs, reports, and resets
+
+SAFE MODEL:
+  Visual/symbolic simulator only. No physical laser construction parameters.

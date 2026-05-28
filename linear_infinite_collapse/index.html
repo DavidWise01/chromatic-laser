@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linear Infinite Collapse // 6×4×3×2×1=0</title>
+<style>
+:root{--bg:#050506;--ink:#f4f1e8;--muted:#9b968d;--red:#ff315a;--blue:#38bdf8;--green:#6ee7b7;--yellow:#facc15;--white:#fff;--line:#27272a;--panel:#111114;--orange:#fb923c;--violet:#a78bfa}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(circle at 50% 30%,#000 0 55%,transparent 85%);pointer-events:none} 
+.hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:48px clamp(20px,5vw,72px);position:relative}.kicker{letter-spacing:.22em;text-transform:uppercase;color:var(--red);font-size:12px;font-weight:800}.hero h1{font-size:clamp(52px,8vw,112px);line-height:.82;margin:18px 0 20px;letter-spacing:-.07em;text-transform:uppercase}.hero h1 span{color:transparent;-webkit-text-stroke:1px var(--ink);text-shadow:0 0 24px rgba(255,49,90,.22)}.lead{font-size:clamp(18px,2vw,24px);color:#d8d4cc;line-height:1.45;max-width:720px}.formula{font-family:ui-monospace,Menlo,monospace;margin-top:28px;padding:18px 20px;border:1px solid #34343a;background:rgba(17,17,20,.75);box-shadow:0 0 60px rgba(255,49,90,.09);font-size:clamp(20px,3vw,38px)}
+.stage{border:1px solid #2d2d33;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border-radius:28px;padding:24px;box-shadow:0 20px 80px rgba(0,0,0,.55)}
+#sim{width:100%;height:560px;display:block;background:radial-gradient(circle at 50% 50%,#15151a,#050506 62%);border-radius:20px;border:1px solid #27272a}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.controls button{background:#18181b;color:var(--ink);border:1px solid #33333a;border-radius:12px;padding:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.controls button:hover{border-color:var(--red);color:var(--red)}
+.section{padding:70px clamp(20px,5vw,72px);position:relative}.section h2{font-size:clamp(34px,5vw,72px);letter-spacing:-.05em;margin:0 0 18px;text-transform:uppercase}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:rgba(17,17,20,.82);border:1px solid #2d2d33;border-radius:22px;padding:22px;min-height:180px}.card b{display:block;color:var(--red);font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}.card p{color:#c8c3b8;line-height:1.55}.mono{font-family:ui-monospace,Menlo,monospace;color:#e7e5dd;white-space:pre-wrap;background:#0a0a0c;border:1px solid #2a2a30;border-radius:18px;padding:20px;overflow:auto}.rail{height:220px;border:1px solid #2d2d33;border-radius:24px;background:linear-gradient(90deg,rgba(255,49,90,.08),rgba(56,189,248,.05),rgba(255,255,255,.03));position:relative;overflow:hidden}.rail:before{content:"";position:absolute;left:5%;right:5%;top:50%;height:2px;background:linear-gradient(90deg,transparent,var(--red),var(--white),var(--blue),transparent);box-shadow:0 0 30px var(--red)}.node{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;background:var(--ink);transform:translate(-50%,-50%);box-shadow:0 0 14px currentColor}.zero{position:absolute;left:50%;top:50%;width:46px;height:46px;border-radius:50%;border:2px solid var(--white);transform:translate(-50%,-50%);box-shadow:0 0 34px rgba(255,255,255,.7),inset 0 0 24px rgba(255,255,255,.25)}footer{padding:40px 72px;color:#777;border-top:1px solid #222;font-family:ui-monospace,Menlo,monospace}@media(max-width:920px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}#sim{height:420px}}
+</style>
+</head>
+<body>
+<main class="hero">
+  <div>
+    <div class="kicker">1×1×∞ Linear Collapse Rail</div>
+    <h1>Six Four Three Two One <span>Zero</span></h1>
+    <p class="lead">Twenty-four fixed emitters, inherited from four compass stations, are projected onto a single centerline. They do not spin. They fire down one rail, compressing sequence by sequence until the whole structure resolves at zero.</p>
+    <div class="formula">6 × 4 × 3 × 2 × 1 → 0</div>
+  </div>
+  <div class="stage">
+    <canvas id="sim"></canvas>
+    <div class="controls"><button id="run">Run</button><button id="step">Step</button><button id="reset">Reset</button><button id="pulse">Pulse ×3</button></div>
+  </div>
+</main>
+<section class="section">
+  <h2>Geometry</h2>
+  <div class="grid">
+    <div class="card"><b>6</b><p>Each compass arm contributes six fixed emitters. The former ring becomes a packet of six axial positions.</p></div>
+    <div class="card"><b>4</b><p>North, South, East, and West are collapsed into four ordered rail groups. Direction becomes timing.</p></div>
+    <div class="card"><b>3 × 2 × 1</b><p>Three pulse passes compress into paired rails, then into one center carrier. The carrier terminates at zero.</p></div>
+  </div>
+</section>
+<section class="section">
+  <h2>Fixed Rail Map</h2>
+  <div class="rail" id="rail"></div>
+</section>
+<section class="section">
+  <h2>Kernel</h2>
+  <div class="mono">GEOMETRY: 1 × 1 × ∞
+EMITTERS: 6 × 4 = 24 fixed nodes
+SEQUENCE: 6 × 4 × 3 × 2 × 1 = 0
+PHASE_STEP: 0.01
+MOTION: axial only
+SPIN: disabled
+BLEED: none
+ZERO: absorb / report / reset</div>
+</section>
+<footer>Linear Infinite Collapse // symbolic optical simulator // no physical laser parameters</footer>
+<script>
+const canvas=document.getElementById('sim'),ctx=canvas.getContext('2d');let W,H,dpr=1;let running=false,phase=0,stage=0;const stages=[6,4,3,2,1,0];
+function resize(){dpr=devicePixelRatio||1;const r=canvas.getBoundingClientRect();W=canvas.width=r.width*dpr;H=canvas.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+const colors=['#ff315a','#fb923c','#facc15','#6ee7b7','#38bdf8','#a78bfa'];
+function emitterPositions(){const arr=[];for(let g=0;g<4;g++){for(let i=0;i<6;i++){arr.push({g,i,x:(g*6+i+1)/25})}}return arr}const emitters=emitterPositions();
+function draw(){const w=W/dpr,h=H/dpr;ctx.clearRect(0,0,w,h);ctx.fillStyle='#050506';ctx.fillRect(0,0,w,h);ctx.save();ctx.translate(0,h/2);ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(40,0);ctx.lineTo(w-40,0);ctx.stroke();
+// zero well
+ctx.beginPath();ctx.arc(w/2,0,34,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=2;ctx.shadowColor='white';ctx.shadowBlur=24;ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle='rgba(255,255,255,.08)';ctx.fill();
+// emitters
+emitters.forEach((e,idx)=>{const x=40+e.x*(w-80);const y=(e.g-1.5)*42 + (e.i-2.5)*2;ctx.fillStyle=colors[e.i%6];ctx.shadowColor=colors[e.i%6];ctx.shadowBlur=12;ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0});
+// pulses toward zero
+const active=stages[stage];if(active>0){for(let pass=0;pass<active;pass++){const t=(phase+pass/active)%1;emitters.forEach((e,idx)=>{if(e.i>=active&&active<6)return;const sx=40+e.x*(w-80);const tx=w/2;const dir=sx<tx?1:-1;const x=sx+(tx-sx)*t;const y=(e.g-1.5)*42*(1-t);ctx.strokeStyle=colors[e.i%6];ctx.globalAlpha=.28;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(sx,(e.g-1.5)*42);ctx.lineTo(x,y);ctx.stroke();ctx.globalAlpha=1;ctx.fillStyle=colors[e.i%6];ctx.shadowColor=colors[e.i%6];ctx.shadowBlur=18;ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0})}}else{ctx.fillStyle='white';ctx.shadowColor='white';ctx.shadowBlur=40;ctx.beginPath();ctx.arc(w/2,0,8+Math.sin(phase*20)*4,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0}
+ctx.restore();ctx.fillStyle='#f4f1e8';ctx.font='700 13px ui-monospace,monospace';ctx.fillText('stage: '+stages[stage]+'   phase: '+phase.toFixed(2)+'   fixed axial rail',18,26);requestAnimationFrame(loop)}
+function loop(){if(running){phase+=0.01;if(phase>=1){phase=0;stage=(stage+1)%stages.length}}draw()}loop();
+document.getElementById('run').onclick=()=>running=!running;document.getElementById('step').onclick=()=>{phase+=0.01;if(phase>=1){phase=0;stage=(stage+1)%stages.length}};document.getElementById('reset').onclick=()=>{phase=0;stage=0;running=false};document.getElementById('pulse').onclick=()=>{stage=2;phase=0;running=true};
+const rail=document.getElementById('rail');emitters.forEach((e,idx)=>{const n=document.createElement('div');n.className='node';n.style.left=(5+e.x*90)+'%';n.style.color=colors[e.i%6];rail.appendChild(n)});const z=document.createElement('div');z.className='zero';rail.appendChild(z);
+</script>
+</body>
+</html>

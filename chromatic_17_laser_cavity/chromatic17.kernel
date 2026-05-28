@@ -1,0 +1,48 @@
+CHROMATIC_17_LASER_CAVITY_KERNEL
+first_author: David Wise
+mode: local_simulation_only
+
+TOPOLOGY
+  16 spectrum emitters
+  4 emitters per quadrant
+  17th point = pure white coherence core
+
+NODES
+  L01 red_pressure
+  L02 orange_gain
+  L03 amber_transition
+  L04 yellow_lift
+  L05 lime_correction
+  L06 green_stability
+  L07 mint_expansion
+  L08 cyan_edge
+  L09 azure_carrier
+  L10 blue_coherence
+  L11 indigo_depth
+  L12 violet_gate
+  L13 magenta_return
+  L14 rose_inversion
+  L15 crimson_lock
+  L16 infra_red_floor
+  C17 pure_white_core
+
+RULE
+  contain_target = 0.98
+  output_coupling = 0.02
+  quadrant_count = 4
+  beams_per_quad = 4
+
+LOOP
+  SAMPLE phase[16]
+  NORMALIZE amplitude[16]
+  BALANCE each quadrant
+  SUM into C17
+  CLAMP color dominance
+  RELEASE controlled white output
+  FOLD drift back into containment curve
+  REPORT coherence
+  REPEAT
+
+BOUNDARY
+  simulation is conceptual and visual
+  no physical laser construction parameters

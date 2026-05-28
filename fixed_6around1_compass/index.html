@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fixed Compass Array // 6 Around 1 × 4</title>
+<style>
+:root{
+  --bg:#07080b;--ink:#f4f4f1;--muted:#8b8e98;--line:#252833;--red:#ff3b3b;--blue:#49a7ff;--green:#4dff9a;--gold:#ffd45a;--white:#fff;--black:#000;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% 48%,#171923 0,#07080b 48%,#020204 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(circle,black,transparent 78%);pointer-events:none;}
+header{padding:28px clamp(18px,4vw,56px);display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:1px solid #20232d;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}
+h1{margin:0;font-size:clamp(30px,5vw,72px);letter-spacing:-.07em;line-height:.9;text-transform:uppercase}.tag{font:700 12px ui-monospace,monospace;color:var(--gold);letter-spacing:.22em;text-transform:uppercase}.sub{max-width:620px;color:#b7bac5;margin-top:10px;line-height:1.55}.wrap{display:grid;grid-template-columns:minmax(300px,1fr) 380px;gap:24px;padding:28px clamp(18px,4vw,56px)}@media(max-width:980px){.wrap{grid-template-columns:1fr}}
+.stage{min-height:720px;border:1px solid #2b2f3b;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border-radius:28px;position:relative;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.5)}
+.stage svg{width:100%;height:720px;display:block}.axis{stroke:#444a59;stroke-width:1.2;stroke-dasharray:6 8}.ring{fill:none;stroke:#272c39;stroke-width:1}.beam{stroke-width:2.2;stroke-linecap:round;opacity:.52;filter:url(#glow)}.beam.hot{opacity:1;stroke-width:3.6}.node{stroke:#050506;stroke-width:2;filter:url(#soft)}.center-node{fill:#fff;filter:url(#core)}.sat{opacity:.92}.label{font:800 13px ui-monospace,monospace;fill:#f4f4f1;letter-spacing:.12em}.tiny{font:700 10px ui-monospace,monospace;fill:#8b8e98;letter-spacing:.08em}.panel{border:1px solid #2b2f3b;border-radius:24px;background:rgba(8,9,13,.72);backdrop-filter:blur(16px);padding:20px;box-shadow:0 25px 70px rgba(0,0,0,.35)}.panel h2{margin:0 0 12px;font-size:20px;text-transform:uppercase;letter-spacing:-.03em}.readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.card{padding:14px;border:1px solid #2a2e3a;border-radius:16px;background:#0d0f15}.k{font:800 10px ui-monospace,monospace;color:var(--muted);letter-spacing:.18em;text-transform:uppercase}.v{font:800 24px ui-monospace,monospace;margin-top:4px;color:#fff}.controls{display:grid;gap:10px;margin-top:16px}button,input{font:800 12px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}button{border:1px solid #3b4050;background:#131722;color:#fff;border-radius:14px;padding:13px;cursor:pointer}button:hover{border-color:#fff;background:#1c2130}.active{background:#fff!important;color:#000!important}.note{font-size:13px;line-height:1.65;color:#b8bbc6}.spec{margin-top:24px;padding:28px clamp(18px,4vw,56px);display:grid;grid-template-columns:repeat(3,1fr);gap:18px}@media(max-width:900px){.spec{grid-template-columns:1fr}}.spec article{border:1px solid #282d39;border-radius:22px;padding:20px;background:rgba(255,255,255,.035)}.spec h3{margin:0 0 10px;text-transform:uppercase}.code{font:700 12px ui-monospace,monospace;white-space:pre-wrap;color:#d7d9df;background:#07080b;border:1px solid #252936;border-radius:16px;padding:16px;overflow:auto}.footer{padding:28px 56px;color:#707481;font:700 11px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.16em}
+</style>
+</head>
+<body>
+<header><div><div class="tag">fixed compass array</div><h1>6 around 1 × 4</h1><div class="sub">Four stationary directional stations: North, South, East, West. Each station is a fixed seven-node cluster: one core and six satellites. No spin. No drift. Only gated pulses from each cluster into the central zero well.</div></div><div class="tag">phase .25 // gate 27·00</div></header>
+<div class="wrap">
+<section class="stage">
+<svg viewBox="0 0 900 720" role="img" aria-label="Fixed compass array with four clusters, each 6 around 1">
+<defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="soft"><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ffffff" flood-opacity=".25"/></filter><filter id="core"><feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#ffffff" flood-opacity=".95"/></filter></defs>
+<line class="axis" x1="450" y1="60" x2="450" y2="660"/><line class="axis" x1="150" y1="360" x2="750" y2="360"/>
+<circle class="ring" cx="450" cy="360" r="68"/><circle class="ring" cx="450" cy="360" r="172"/><circle class="ring" cx="450" cy="360" r="282"/>
+<text class="label" x="432" y="365">0</text><circle class="center-node" cx="450" cy="360" r="18"/>
+<g id="beams"></g><g id="clusters"></g>
+</svg>
+</section>
+<aside class="panel"><h2>Control</h2><p class="note">The clusters are locked in place. Each pulse cycle selects one compass arm, fires its six satellites and center carrier into the zero well, then advances phase by <b>.25</b>. Four cycles complete one full compass phase.</p><div class="readout"><div class="card"><div class="k">mode</div><div class="v" id="mode">NORTH</div></div><div class="card"><div class="k">phase</div><div class="v" id="phase">0.00</div></div><div class="card"><div class="k">gate</div><div class="v" id="gate">27</div></div><div class="card"><div class="k">well</div><div class="v" id="well">00</div></div></div><div class="controls"><button id="step">step pulse</button><button id="run">run fixed sequence</button><button id="reset">reset zero</button></div><h2 style="margin-top:24px">Rule</h2><div class="code">N/S/E/W stations
+station = 6 satellites + 1 carrier
+fixed geometry, no spin
+pulse = 27 → 00 → 27
+phase += 0.25 per station
+N + E + S + W = one full phase</div></aside>
+</div>
+<section class="spec"><article><h3>Geometry</h3><p class="note">Each cardinal station is a static heptad: six outer emitters fixed around one local core. The local core provides the dead-center carrier for that direction; the six satellites provide boundary pressure.</p></article><article><h3>Timing</h3><p class="note">The sequence starts at zero and pushes outward by direction. Each direction owns one quarter-phase. The full compass completes after four gated emissions.</p></article><article><h3>Containment</h3><p class="note">Energy is visualized as a local simulation only. The zero well receives pulses, collapses to 00, then reopens to 27 without cross-arm bleed.</p></article></section>
+<div class="footer">kernel: fixed_6around1_compass // first author symbolic simulator // local-only</div>
+<script>
+const svgNS='http://www.w3.org/2000/svg';
+const clusters=document.getElementById('clusters'), beams=document.getElementById('beams');
+const dirs=[{name:'NORTH',x:450,y:130,color:'#49a7ff'},{name:'EAST',x:680,y:360,color:'#ff3b3b'},{name:'SOUTH',x:450,y:590,color:'#4dff9a'},{name:'WEST',x:220,y:360,color:'#ffd45a'}];
+let active=0, phase=0, running=false, timer=null;
+function el(n,a){const e=document.createElementNS(svgNS,n);for(const k in a)e.setAttribute(k,a[k]);return e}
+function build(){clusters.innerHTML='';beams.innerHTML='';dirs.forEach((d,di)=>{const g=el('g',{});g.setAttribute('data-dir',d.name);const beam=el('line',{x1:d.x,y1:d.y,x2:450,y2:360,stroke:d.color,class:'beam',id:'beam'+di});beams.appendChild(beam);g.appendChild(el('text',{x:d.x-22,y:d.y-58,class:'label'})).textContent=d.name[0];g.appendChild(el('text',{x:d.x-34,y:d.y+72,class:'tiny'})).textContent='6 AROUND 1';for(let i=0;i<6;i++){const a=-Math.PI/2+i*Math.PI*2/6;const r=38;g.appendChild(el('circle',{cx:d.x+Math.cos(a)*r,cy:d.y+Math.sin(a)*r,r:9,fill:d.color,class:'node sat',id:`n${di}_${i}`}));}g.appendChild(el('circle',{cx:d.x,cy:d.y,r:13,fill:'#fff',class:'node',id:`core${di}`}));clusters.appendChild(g);});render()}
+function render(){document.getElementById('mode').textContent=dirs[active].name;document.getElementById('phase').textContent=phase.toFixed(2);document.getElementById('gate').textContent=(Math.round(27*(1+Math.sin(Date.now()/240)/12))).toString();document.getElementById('well').textContent=active%2?'27':'00';dirs.forEach((d,di)=>{document.getElementById('beam'+di).classList.toggle('hot',di===active);for(let i=0;i<6;i++){const n=document.getElementById(`n${di}_${i}`);n.setAttribute('r',di===active?12:9);n.setAttribute('opacity',di===active?1:.55)}document.getElementById(`core${di}`).setAttribute('r',di===active?17:13)});}
+function step(){active=(active+1)%4;phase=(phase+.25)%1;render()}
+document.getElementById('step').onclick=step;document.getElementById('run').onclick=()=>{running=!running;document.getElementById('run').classList.toggle('active',running);document.getElementById('run').textContent=running?'stop sequence':'run fixed sequence';if(running){timer=setInterval(step,700)}else clearInterval(timer)};document.getElementById('reset').onclick=()=>{active=0;phase=0;render()};
+build();setInterval(render,120);
+</script>
+</body></html>

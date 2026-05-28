@@ -1,0 +1,37 @@
+KERNEL: TRIPLE_PULSE_MOUNTAIN
+AUTHOR: David Wise / GPT-5.5 Thinking
+MODE: safe simulation, linear core array
+
+LAW:
+  PULSE x3 DOWN THE MOUNTAIN
+  END AT 27
+  27 = 0 = 27
+
+STATES:
+  0..26  : descent / accumulation gates
+  27     : terminal wall / coherence gate
+  0      : zero well / compression singularity
+  27     : reconstituted exit state
+
+CHANNELS:
+  RED   : leading heat/intensity channel
+  GOLD  : witness/phase channel
+  BLUE  : return/cooling channel
+
+EXECUTION:
+  FIRE_X3()
+  FOR gate 0..27:
+    advance all three pulses along fixed centerline
+    clamp pulse to tunnel boundary
+    accumulate compression = (gate/27)^2
+  IF gate == 27:
+    collapse all channels to zero well
+    discharge as shock ring
+    reconstitute as 27 in phase N+1
+  RESET_DRIFT()
+  REPEAT()
+
+SAFETY:
+  simulator only
+  no physical laser build parameters
+  no power, focusing, burning, or real-world cutting guidance

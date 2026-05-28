@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Real Optical Array 128</title>
+<style>
+:root{--bg:#08080a;--fg:#f4f4f0;--muted:#9ca3af;--red:#ff2a2a;--blue:#39a7ff;--white:#fff;--panel:#111116;--line:#2a2a33;--green:#37ff9a;--amber:#ffd166}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 20%,#1b1b24 0,#08080a 45%,#020203 100%);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,Arial,sans-serif}header{padding:34px 24px 16px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(255,42,42,.12),rgba(57,167,255,.08),transparent)}.kicker{font:700 12px/1 ui-monospace,monospace;letter-spacing:.24em;color:var(--red);text-transform:uppercase}h1{font-size:clamp(42px,8vw,96px);line-height:.88;margin:12px 0 8px;letter-spacing:-.07em;text-transform:uppercase}.sub{max-width:900px;color:#cbd5e1;font-size:18px;line-height:1.5}.wrap{display:grid;grid-template-columns:minmax(320px,1fr) 390px;gap:20px;padding:20px;max-width:1500px;margin:0 auto}@media(max-width:980px){.wrap{grid-template-columns:1fr}}.stage{position:relative;min-height:720px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border-radius:24px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}canvas{width:100%;height:720px;display:block}.panel{border:1px solid var(--line);background:rgba(17,17,22,.88);border-radius:20px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.35)}h2{margin:0 0 10px;text-transform:uppercase;letter-spacing:-.03em}.stat{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);font-family:ui-monospace,monospace}.stat span:first-child{color:var(--muted)}.stat b{color:#fff}.controls{display:grid;gap:12px;margin-top:16px}button{background:#f4f4f0;color:#08080a;border:0;border-radius:12px;padding:12px 14px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}button.secondary{background:#1d1d25;color:#f4f4f0;border:1px solid var(--line)}label{font:700 12px/1 ui-monospace,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}input[type=range]{width:100%;accent-color:var(--red)}.note{margin-top:18px;padding:14px;border:1px solid rgba(255,209,102,.3);background:rgba(255,209,102,.06);border-radius:14px;color:#f6e7b0;font-size:14px;line-height:1.5}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.chip{border:1px solid var(--line);border-radius:14px;padding:12px;background:#0c0c11}.chip .n{font:800 22px/1 ui-monospace,monospace}.chip .t{margin-top:4px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.12em}.doc{max-width:1120px;margin:0 auto;padding:20px}.section{border-top:1px solid var(--line);padding:34px 0}.section p{color:#cbd5e1;line-height:1.65;max-width:900px}.code{white-space:pre-wrap;background:#050507;border:1px solid var(--line);border-radius:18px;padding:18px;font:13px/1.55 ui-monospace,monospace;color:#d1d5db}.safe{color:var(--green)}.danger{color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">safe optical reference / 128 emitter array</div>
+  <h1>Real Array</h1>
+  <div class="sub">A buildable low-power optical emitter array: 64 upper, 64 lower, 0.001 phase stepping, fixed geometry into a center diffuser/sensor well. Built for LEDs first, bounded current, bounded duty, no free-space high-power combining.</div>
+</header>
+<main class="wrap">
+  <section class="stage"><canvas id="c"></canvas></section>
+  <aside class="panel">
+    <h2>Control Surface</h2>
+    <div class="stat"><span>Emitters</span><b>128</b></div>
+    <div class="stat"><span>Upper / Lower</span><b>64 / 64</b></div>
+    <div class="stat"><span>Phase Step</span><b id="phase">0.001</b></div>
+    <div class="stat"><span>Center Well</span><b id="well">0.000</b></div>
+    <div class="stat"><span>Coherence</span><b id="coh">0%</b></div>
+    <div class="stat"><span>State</span><b id="state" class="safe">RUN</b></div>
+    <div class="controls">
+      <label>Drive duty cap</label><input id="duty" type="range" min="5" max="80" value="42" />
+      <label>Phase speed</label><input id="speed" type="range" min="1" max="20" value="6" />
+      <button id="toggle">pause</button>
+      <button class="secondary" id="safe">safe hold</button>
+    </div>
+    <div class="grid">
+      <div class="chip"><div class="n">Δt</div><div class="t">0.001 tick</div></div>
+      <div class="chip"><div class="n">P</div><div class="t">pair drive</div></div>
+      <div class="chip"><div class="n">C</div><div class="t">center read</div></div>
+      <div class="chip"><div class="n">-1</div><div class="t">safe hold</div></div>
+    </div>
+    <div class="note">Prototype recommendation: start with addressable RGB LEDs or current-limited diffused LEDs. Treat the central “capacitance well” as a diffuser plus light sensor and software accumulator.</div>
+  </aside>
+</main>
+<section class="doc">
+  <div class="section"><h2>Architecture</h2><p>The real array is not a hazardous beam combiner. It is a bounded optical timing lattice. Two banks of 64 low-power emitters fire paired pulses toward a center collector. The center stores an analog-like reading in software, then feeds the next 0.001 phase step.</p></div>
+  <div class="section"><h2>Kernel</h2><div class="code">OBSERVE_CENTER
+UPDATE_PHASE(0.001)
+SELECT_PAIR(upper[i], lower[63-i])
+DRIVE_BOUNDED_PWM
+MEASURE_CENTER_RESPONSE
+CLAMP_CURRENT_AND_DUTY
+NO_BLEED_BOUNDARY
+REPORT_COHERENCE
+REPEAT</div></div>
+  <div class="section"><h2>Physical First Build</h2><p>Use LEDs first. The first goal is not optical coherence; it is timing, geometry, feedback, and safe bounded control. A photodiode or light sensor at the center can serve as the well. A small capacitor on the analog readout can smooth the signal for a more physical accumulation effect.</p></div>
+  <div class="section"><h2>Safety Boundary</h2><p><span class="danger">Do not</span> combine many collimated laser beams into a free-space focal point. Use diffusion, current limiting, low duty cycle, enclosure switches, and shutdown logic. This package models a realistic safe prototype path, not a high-power laser array.</p></div>
+</section>
+<script>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr;function resize(){dpr=devicePixelRatio||1;const r=canvas.getBoundingClientRect();W=r.width;H=r.height;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+let phase=0,run=true,safe=false,well=0;const duty=document.getElementById('duty'),speed=document.getElementById('speed');document.getElementById('toggle').onclick=()=>{run=!run;toggle.textContent=run?'pause':'run'};document.getElementById('safe').onclick=()=>{safe=!safe;document.getElementById('state').textContent=safe?'SAFE HOLD':'RUN';document.getElementById('state').className=safe?'danger':'safe'};
+function color(i){return `hsl(${(i*360/128+phase*180)%360} 95% 62%)`}
+function draw(){ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,R=Math.min(W,H)*0.42;ctx.fillStyle='#050507';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(255,255,255,.06)';for(let r=80;r<R;r+=60){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke()}const idx=Math.floor(phase*64)%64;const cap=+duty.value/80;let sum=0;for(let bank=0;bank<2;bank++){for(let i=0;i<64;i++){const a=(Math.PI*(bank?0.08:1.08))+(i/63)*Math.PI*.84;const x=cx+Math.cos(a)*R;const y=cy+Math.sin(a)*R;const active=!safe&&(i===idx||i===(63-idx));const sz=active?5.5:3;ctx.fillStyle=active?color(i+bank*64):'rgba(255,255,255,.22)';ctx.beginPath();ctx.arc(x,y,sz,0,Math.PI*2);ctx.fill();if(active){sum+=cap;const g=ctx.createLinearGradient(x,y,cx,cy);g.addColorStop(0,color(i+bank*64));g.addColorStop(1,'rgba(255,255,255,.95)');ctx.strokeStyle=g;ctx.lineWidth=2.2;ctx.globalAlpha=.85;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(cx,cy);ctx.stroke();ctx.globalAlpha=1;}}}well=well*.94+sum*.06;const grd=ctx.createRadialGradient(cx,cy,0,cx,cy,70+well*50);grd.addColorStop(0,'rgba(255,255,255,1)');grd.addColorStop(.25,`rgba(255,255,255,${.85})`);grd.addColorStop(.6,`rgba(57,167,255,${.18+well*.3})`);grd.addColorStop(1,'rgba(255,42,42,0)');ctx.fillStyle=grd;ctx.beginPath();ctx.arc(cx,cy,95+well*20,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,42+well*20,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#fff';ctx.font='700 12px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText('CENTER WELL',cx,cy+4);if(run&&!safe){phase=(phase+(+speed.value)*0.001)%1}document.getElementById('phase').textContent=phase.toFixed(3);document.getElementById('well').textContent=well.toFixed(3);document.getElementById('coh').textContent=Math.min(100,Math.round(well*100)).toString()+'%';requestAnimationFrame(draw)}draw();
+</script>
+</body></html>

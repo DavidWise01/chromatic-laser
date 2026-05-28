@@ -1,0 +1,35 @@
+KERNEL: COMPASS_PHASE_PULSE
+AUTHOR: David Wise, first-author conceptual model
+MODE: safe optical/wave simulation
+
+RULE:
+  START at center 0.
+  PUSH outward on compass axes: NORTH, SOUTH, EAST, WEST.
+  EACH axis emits sequence: 27 -> 00 -> 27 -> 00 -> 27 -> 00.
+  EACH sequence advances global phase by +0.25.
+  FOUR pushes complete one full phase revolution.
+
+STATE:
+  CENTER = 0
+  COLLAPSE_POCKET = 00
+  DISTANCE_GATE = 27
+  PHASE_STEP = 0.25
+  AXES = N,S,E,W
+
+CYCLE:
+  0 -> N: 27 00 27 00 27 00 ; phase += .25
+  0 -> E: 27 00 27 00 27 00 ; phase += .25
+  0 -> S: 27 00 27 00 27 00 ; phase += .25
+  0 -> W: 27 00 27 00 27 00 ; phase += .25
+  phase wraps at 1.00 -> 0.00
+
+BOUNDARY:
+  no bleed across axes
+  no diagonal propagation unless explicitly enabled
+  collapse packets 00 return to center memory
+
+INTERPRETATION:
+  27 = outbound pulse reach
+  00 = collapse / coherence pocket
+  .25 = quarter-turn phase advance
+  full compass cycle = one complete phase revolution

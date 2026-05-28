@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Six Point Coherence Cavity // Laser Tensor Prototype</title>
+<style>
+:root{
+  --bg:#050506; --ink:#f4f1e8; --muted:#9b9a94; --red:#ff1f3d; --cyan:#2df6ff; --acid:#d7ff2f; --steel:#b8b8b8; --card:#111114; --line:#2b2b31;
+  --warn:#ffb000; --ok:#54ff91;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:radial-gradient(circle at 18% 20%,rgba(255,31,61,.22),transparent 28%),radial-gradient(circle at 84% 10%,rgba(45,246,255,.14),transparent 30%),linear-gradient(120deg,#050506,#08080b 40%,#030304)}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:18px 18px;mask-image:radial-gradient(ellipse at center,#000 20%,transparent 90%)}
+.noise{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.08;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="120" height="120" filter="url(%23n)" opacity="0.6"/></svg>');mix-blend-mode:screen}.scan{position:fixed;inset:0;pointer-events:none;z-index:51;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(255,255,255,.035) 6px);opacity:.35}
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(5,5,6,.82);backdrop-filter:blur(14px)}
+.brand{display:flex;gap:12px;align-items:center;text-transform:uppercase;letter-spacing:.18em;font-weight:900;font-size:12px}.brand .mark{width:34px;height:34px;border:1px solid var(--ink);display:grid;place-items:center;box-shadow:6px 6px 0 var(--red);color:var(--cyan);font-weight:950}.nav{display:flex;gap:18px;font-size:11px;text-transform:uppercase;letter-spacing:.14em}.nav a{color:var(--muted);text-decoration:none}.nav a:hover{color:var(--acid)}
+.hero{min-height:96vh;display:grid;grid-template-columns:1.08fr .92fr;gap:24px;align-items:center;padding:54px clamp(18px,5vw,80px) 30px}.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.26em;color:var(--cyan);margin-bottom:16px}.title{font-size:clamp(54px,9vw,132px);line-height:.78;margin:0;text-transform:uppercase;font-weight:1000;letter-spacing:-.075em;text-shadow:4px 0 0 rgba(255,31,61,.8),-3px 0 0 rgba(45,246,255,.55)}.title em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--ink);text-shadow:none}.sub{max-width:820px;color:#d8d3c8;font-size:clamp(17px,2vw,24px);line-height:1.35;margin:26px 0 26px}.labelrow{display:flex;flex-wrap:wrap;gap:10px}.pill{border:1px solid rgba(255,255,255,.2);padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;background:#0b0b0d}.pill.red{border-color:rgba(255,31,61,.65);color:#ff8796}.pill.cyan{border-color:rgba(45,246,255,.65);color:#9ffbff}.pill.acid{border-color:rgba(215,255,47,.65);color:var(--acid)}
+.panel{background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.13);box-shadow:0 28px 80px rgba(0,0,0,.45);position:relative;overflow:hidden}.panel:before{content:"LASER//CAVITY//PROTOTYPE";position:absolute;top:10px;right:-38px;transform:rotate(16deg);font-size:10px;letter-spacing:.24em;color:rgba(255,255,255,.18)}
+.cavityCard{padding:18px}.cavityTop{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:12px;margin-bottom:12px}.status{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--ok)}.meter{font-family:ui-monospace,monospace;color:var(--acid)}canvas{width:100%;height:auto;display:block;background:#030305;border:1px solid rgba(255,255,255,.12)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.control{border:1px solid rgba(255,255,255,.12);padding:10px;background:#09090b}.control label{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}.control input{width:100%;accent-color:var(--red)}
+section{padding:80px clamp(18px,5vw,80px);border-top:1px solid rgba(255,255,255,.08)}.sectionHead{display:grid;grid-template-columns:.8fr 1.2fr;gap:34px;align-items:start;margin-bottom:34px}.eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:900}.h2{font-size:clamp(32px,5vw,72px);line-height:.86;text-transform:uppercase;margin:10px 0 0;font-weight:1000;letter-spacing:-.05em}.copy{color:#c7c3ba;font-size:17px;line-height:1.65;max-width:820px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.13);padding:20px;min-height:210px;position:relative;overflow:hidden}.card b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);margin-bottom:18px}.card h3{font-size:28px;line-height:.95;margin:0 0 12px;text-transform:uppercase}.card p{color:#bfbab0;line-height:1.55}.num{position:absolute;right:12px;bottom:4px;font-size:76px;font-weight:1000;color:rgba(255,255,255,.05);letter-spacing:-.08em}
+.diagram{display:grid;grid-template-columns:1fr 1fr;gap:18px}.ascii{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre;line-height:1.22;background:#060607;border:1px solid rgba(255,255,255,.14);padding:22px;overflow:auto;color:#eae6dc;box-shadow:inset 0 0 40px rgba(255,31,61,.08)}.spec{display:grid;gap:10px}.row{display:grid;grid-template-columns:150px 1fr;gap:12px;border:1px solid rgba(255,255,255,.12);padding:12px;background:#09090b}.row span:first-child{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.13em}.row span:last-child{font-family:ui-monospace,monospace;color:#fff}.warning{border:1px solid rgba(255,176,0,.35);background:rgba(255,176,0,.06);padding:18px;color:#e9d8ac;line-height:1.6}.long{columns:2 420px;column-gap:36px}.long p{break-inside:avoid;color:#c7c3ba;line-height:1.7;margin-top:0}.footer{padding:40px clamp(18px,5vw,80px);display:flex;justify-content:space-between;gap:20px;color:#777;font-size:11px;text-transform:uppercase;letter-spacing:.14em;border-top:1px solid rgba(255,255,255,.1)}
+button{cursor:pointer;background:var(--ink);color:#050506;border:0;padding:12px 14px;text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:1000;box-shadow:6px 6px 0 var(--red)}button:hover{transform:translate(2px,2px);box-shadow:4px 4px 0 var(--cyan)}.buttonrow{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap}.ghost{background:transparent;color:var(--ink);border:1px solid rgba(255,255,255,.3);box-shadow:6px 6px 0 rgba(45,246,255,.35)}
+@media(max-width:900px){.hero,.sectionHead,.diagram{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.nav{display:none}.title{font-size:64px}.footer{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="noise"></div><div class="scan"></div>
+<header><div class="brand"><div class="mark">6</div><div>Six Point Coherence Cavity</div></div><nav class="nav"><a href="#model">Model</a><a href="#prototype">Prototype</a><a href="#safety">Safety</a><a href="#notes">Notes</a></nav></header>
+<main>
+<section class="hero" id="top">
+  <div>
+    <div class="kicker">Optical cavity simulation // gas gain medium // 98/2 output coupling</div>
+    <h1 class="title">Laser<br><em>Tensor</em><br>Cavity</h1>
+    <p class="sub">A realistic, local-only prototype of the six-point coherence model: contain the field, bias the medium, curve the boundary, release a narrow beam through point 6.</p>
+    <div class="labelrow"><span class="pill red">98% containment</span><span class="pill cyan">2% output</span><span class="pill acid">P6 beam gate</span><span class="pill">gas gain simulation</span></div>
+    <div class="buttonrow"><button onclick="document.querySelector('#prototype').scrollIntoView()">Run prototype</button><button class="ghost" onclick="pulseBurst()">Inject pulse</button></div>
+  </div>
+  <div class="panel cavityCard">
+    <div class="cavityTop"><div class="status">Cavity locked</div><div class="meter" id="readout">containment 98.0%</div></div>
+    <canvas id="cavity" width="820" height="620" aria-label="laser cavity simulation"></canvas>
+    <div class="controls">
+      <div class="control"><label><span>pump</span><span id="pumpV">0.72</span></label><input id="pump" type="range" min="0" max="1" step="0.01" value="0.72"></div>
+      <div class="control"><label><span>gain</span><span id="gainV">0.58</span></label><input id="gain" type="range" min="0" max="1" step="0.01" value="0.58"></div>
+      <div class="control"><label><span>curve</span><span id="curveV">0.66</span></label><input id="curve" type="range" min="0" max="1" step="0.01" value="0.66"></div>
+    </div>
+  </div>
+</section>
+<section id="model">
+  <div class="sectionHead"><div><div class="eyebrow">clean model</div><h2 class="h2">Six points. One legal exit.</h2></div><p class="copy">The prototype treats the laser as an optical cavity abstraction. It is not a fabrication recipe. It models the core behavior that makes lasers interesting: repeated amplification inside a bounded cavity, followed by controlled output through a partially transmissive boundary.</p></div>
+  <div class="grid">
+    <div class="card"><b>P0</b><h3>Rest origin</h3><p><code>00000</code> anchors the cavity at a null state. It is the reference frame for drift, not the beam.</p><div class="num">0</div></div>
+    <div class="card"><b>P1</b><h3>Bias seed</h3><p><code>00100</code> introduces a small asymmetry so the field has direction instead of uniform noise.</p><div class="num">1</div></div>
+    <div class="card"><b>P6</b><h3>Output gate</h3><p>The only allowed release path. Everything curves, reflects, or damps except the coherent beam.</p><div class="num">6</div></div>
+  </div>
+</section>
+<section id="prototype">
+  <div class="sectionHead"><div><div class="eyebrow">prototype map</div><h2 class="h2">Hypercube language, cavity behavior.</h2></div><p class="copy">A 1:1 conceptual prototype means the visible rules match the written rules: 98% containment, 2% output coupling, a gas-like gain field, curved tensor boundaries, and a straight coherence beam.</p></div>
+  <div class="diagram">
+    <div class="ascii">          P4: UPPER GRAVITY TENSOR
+             curved containment
+
+       P2  ))))))))))))))  P3
+          )              (
+         )   98% FIELD    (  -----> P6 COHERENCE OUTPUT
+        )    00100 bias    (
+         )   00000 rest    (
+          )              (
+       P5  ((((((((((((  return curve
+
+Kernel:
+  REST(00000)
+  BIAS(00100)
+  CONTAIN(0.98)
+  OUTPUT_COUPLE(0.02)
+  RELEASE_ONLY(P6)
+  RESET_DRIFT()</div>
+    <div class="spec">
+      <div class="row"><span>medium</span><span>gas-gain simulation, normalized</span></div>
+      <div class="row"><span>containment</span><span>0.98 default, slider-derived</span></div>
+      <div class="row"><span>output</span><span>0.02 via point 6</span></div>
+      <div class="row"><span>boundary</span><span>curved reflective tensor</span></div>
+      <div class="row"><span>beam</span><span>straight coherence vector</span></div>
+      <div class="row"><span>scope</span><span>visual + mathematical sandbox</span></div>
+    </div>
+  </div>
+</section>
+<section id="safety">
+  <div class="sectionHead"><div><div class="eyebrow">realism boundary</div><h2 class="h2">Looks dangerous. Stays simulated.</h2></div><p class="copy">The design deliberately avoids actionable physical laser construction details: no power supply design, no cavity alignment procedure, no gas pressure recipe, no optics sourcing list. It is a safe optical systems model for thinking about coherence, containment, and output coupling.</p></div>
+  <div class="warning"><strong>Safety note:</strong> Real lasers can permanently injure eyes, burn skin, ignite materials, and violate regulations when built or operated incorrectly. This page is a local visual simulator and conceptual document only.</div>
+</section>
+<section id="notes">
+  <div class="sectionHead"><div><div class="eyebrow">design notes</div><h2 class="h2">Corporate glass. Basement teeth.</h2></div><p class="copy">The visual language is intentionally split: polished technical confidence over a raw cut-and-paste substrate. The cavity is clean. The field is not. That tension matches the model: disciplined containment around a volatile coherence engine.</p></div>
+  <div class="long">
+    <p><strong>Containment:</strong> The cavity holds most of the field inside the boundary. In a physical analogy, this resembles a resonator with reflective surfaces and one output coupler. In this prototype, containment is a visual and numerical constraint.</p>
+    <p><strong>Bias:</strong> A perfectly symmetrical field does not prefer a direction. The <code>00100</code> point creates an intentional imbalance so the field can be resolved into an output vector.</p>
+    <p><strong>Curvature:</strong> The upper gravity tensor is represented as a curved guide. It does not mean literal gravity. It means the boundary bends the field back toward coherent circulation.</p>
+    <p><strong>Release:</strong> The beam leaves only through point 6. If the field tries to bleed through other boundaries, the simulator folds it back into containment.</p>
+    <p><strong>Prototype:</strong> The page is a working visual model: sliders alter pump, gain, and curvature; the animation changes density, beam brightness, and confinement pressure.</p>
+  </div>
+</section>
+</main>
+<footer class="footer"><div>Six Point Coherence Cavity // Laser Tensor Prototype</div><div>Local-only simulation. No physical build instructions.</div></footer>
+<script>
+const canvas=document.getElementById('cavity'),ctx=canvas.getContext('2d');
+const pump=document.getElementById('pump'),gain=document.getElementById('gain'),curve=document.getElementById('curve');
+const pumpV=document.getElementById('pumpV'),gainV=document.getElementById('gainV'),curveV=document.getElementById('curveV'),readout=document.getElementById('readout');
+let burst=0, t0=0;
+function pulseBurst(){burst=1.25}
+function draw(t){
+  const w=canvas.width,h=canvas.height; const p=+pump.value,g=+gain.value,c=+curve.value;
+  pumpV.textContent=p.toFixed(2); gainV.textContent=g.toFixed(2); curveV.textContent=c.toFixed(2);
+  const contain=0.94 + c*0.055; const out=1-contain; readout.textContent=`containment ${(contain*100).toFixed(1)}% // output ${(out*100).toFixed(1)}%`;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#030305'; ctx.fillRect(0,0,w,h);
+  // grid
+  ctx.strokeStyle='rgba(255,255,255,.045)'; ctx.lineWidth=1;
+  for(let x=0;x<w;x+=32){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}
+  for(let y=0;y<h;y+=32){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+  const cx=w*.43, cy=h*.52, rx=w*.31, ry=h*.28;
+  const phase=t*.002;
+  // field particles
+  for(let i=0;i<230;i++){
+    const a=(i*2.399+phase*(.45+p))*Math.PI; const rr=(.18+((i*37)%100)/100*.82);
+    const wob=Math.sin(phase+i)*18*(1-c*.7);
+    const x=cx+Math.cos(a)*rx*rr+wob; const y=cy+Math.sin(a)*ry*rr*.72+Math.cos(a*2+phase)*16;
+    const alpha=.08+g*.24+burst*.16; ctx.fillStyle=`rgba(${220+35*g},${42+80*p},${70+180*c},${alpha})`;
+    ctx.beginPath();ctx.arc(x,y,1.2+g*2.2,0,Math.PI*2);ctx.fill();
+  }
+  // cavity shells
+  ctx.save(); ctx.translate(cx,cy);
+  const grad=ctx.createLinearGradient(-rx,0,rx,0); grad.addColorStop(0,'#ff1f3d');grad.addColorStop(.5,'#f4f1e8');grad.addColorStop(1,'#2df6ff');
+  ctx.strokeStyle=grad; ctx.lineWidth=5; ctx.shadowColor='rgba(255,31,61,.55)';ctx.shadowBlur=20;
+  ctx.beginPath();ctx.ellipse(0,0,rx,ry,0,Math.PI*.72,Math.PI*1.28);ctx.stroke();
+  ctx.shadowColor='rgba(45,246,255,.55)';ctx.beginPath();ctx.ellipse(0,0,rx,ry,0,-Math.PI*.28,Math.PI*.28);ctx.stroke();
+  ctx.shadowBlur=0; ctx.setLineDash([14,10]); ctx.strokeStyle='rgba(215,255,47,.45)'; ctx.lineWidth=1.5; ctx.beginPath();ctx.ellipse(0,0,rx*.72,ry*.52,0,0,Math.PI*2);ctx.stroke(); ctx.setLineDash([]);
+  ctx.restore();
+  // anchors
+  function label(x,y,l,col){ctx.fillStyle=col;ctx.font='700 15px ui-monospace,monospace';ctx.fillText(l,x,y);}
+  label(cx-rx-34,cy+6,'P2','#ff1f3d'); label(cx+rx+12,cy+6,'P3','#2df6ff'); label(cx-20,cy-ry-22,'P4','#d7ff2f'); label(cx-20,cy+ry+36,'P5','#d7ff2f');
+  label(cx-18,cy+5,'00000','#f4f1e8'); label(cx-18,cy-28,'00100','#2df6ff');
+  // beam
+  const beamPower=Math.min(1,(p*.52+g*.62+burst*.8)*out*28);
+  const bx=cx+rx*.9, by=cy;
+  const beamGrad=ctx.createLinearGradient(bx,by,w,by); beamGrad.addColorStop(0,`rgba(45,246,255,${.9*beamPower})`);beamGrad.addColorStop(.55,`rgba(255,255,255,${.55*beamPower})`);beamGrad.addColorStop(1,'rgba(255,31,61,0)');
+  ctx.strokeStyle=beamGrad; ctx.lineWidth=4+beamPower*10; ctx.shadowColor='#2df6ff';ctx.shadowBlur=28*beamPower; ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(w-38,by+Math.sin(phase*2)*2);ctx.stroke();ctx.shadowBlur=0;
+  label(w-95,by-18,'P6 OUT','#2df6ff');
+  // containment text
+  ctx.fillStyle='rgba(244,241,232,.82)'; ctx.font='12px ui-monospace,monospace'; ctx.fillText('98/2 OUTPUT COUPLING MODEL',28,34); ctx.fillText('NO BLEED: NON-P6 EDGES FOLD BACK',28,54);
+  if(burst>0) burst*=.965;
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+</script>
+</body>
+</html>

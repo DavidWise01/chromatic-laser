@@ -1,0 +1,31 @@
+SIX_POINT_COHERENCE_CAVITY.kernel
+version: 1.1-punk
+scope: optical-cavity simulation only
+
+POINTS:
+  P0 = 00000 // rest origin
+  P1 = 00100 // bias seed
+  P2 = left reflective boundary
+  P3 = right reflective/output boundary
+  P4 = upper gravity tensor curve
+  P5 = lower return curve
+  P6 = legal coherence output
+
+RULES:
+  CONTAINMENT_DEFAULT = 0.98
+  OUTPUT_COUPLING_DEFAULT = 0.02
+  RELEASE_ONLY = P6
+  NON_P6_BOUNDARY = FOLD_BACK
+  GAS_GAIN = NORMALIZED_SIMULATION
+  NO_PHYSICAL_BUILD_PARAMETERS = TRUE
+
+LOOP:
+  REST(P0)
+  BIAS(P1)
+  PUMP(GAS_GAIN)
+  CURVE(P4,P5)
+  CONTAIN(0.98)
+  ALIGN_PHASE()
+  RELEASE(P6,0.02)
+  RESET_DRIFT()
+  REPEAT()

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chromatic 17 // Capacitance Well</title>
+<style>
+:root{--bg:#050507;--paper:#f5f1e8;--ink:#f6f2ea;--muted:#8f8a81;--red:#ff244d;--blue:#32e7ff;--green:#2dff88;--yellow:#fff04a;--line:rgba(255,255,255,.13)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 38%,#15151a 0,#08080b 38%,#020204 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;overflow-x:hidden}.noise:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");mix-blend-mode:screen}.wrap{max-width:1220px;margin:0 auto;padding:28px 18px 80px}header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;border-bottom:1px solid var(--line);padding-bottom:18px}.tag{font:800 12px/1 ui-monospace,monospace;letter-spacing:.18em;color:var(--blue);text-transform:uppercase}.title{font-size:clamp(44px,8vw,108px);line-height:.82;margin:12px 0 10px;font-weight:950;letter-spacing:-.08em;text-transform:uppercase}.title span{color:transparent;-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--red),-3px -2px 0 var(--blue)}.sub{max-width:760px;color:#bbb5aa;font-size:18px;line-height:1.55}.badge{border:1px solid var(--line);padding:12px 14px;min-width:190px;background:rgba(255,255,255,.035);box-shadow:8px 8px 0 rgba(255,36,77,.18);font:700 12px/1.4 ui-monospace,monospace;text-transform:uppercase}.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:22px;margin-top:24px}.panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));box-shadow:0 30px 80px rgba(0,0,0,.45);position:relative;overflow:hidden}.panel:after{content:"";position:absolute;inset:auto -10% -2px -10%;height:2px;background:linear-gradient(90deg,transparent,var(--red),var(--blue),transparent);opacity:.8}.stage{min-height:720px;padding:18px}.canvasShell{height:660px;position:relative;border:1px solid rgba(255,255,255,.1);background:radial-gradient(circle at center,rgba(255,255,255,.08),rgba(255,255,255,.018) 32%,rgba(0,0,0,.4) 70%);overflow:hidden}canvas{width:100%;height:100%;display:block}.readout{position:absolute;left:16px;top:16px;z-index:2;background:rgba(0,0,0,.62);border:1px solid rgba(255,255,255,.16);padding:12px 14px;font:700 12px/1.55 ui-monospace,monospace;color:#ddd;text-transform:uppercase;backdrop-filter:blur(8px)}.readout b{color:#fff}.readout .hot{color:var(--red)}.readout .cool{color:var(--blue)}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.btn{border:1px solid rgba(255,255,255,.16);background:#0e0e13;color:#fff;padding:12px 10px;font:900 12px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}.btn:hover,.btn.active{background:var(--paper);color:#060608}.copy{padding:22px}.copy h2{font-size:32px;line-height:1;margin:0 0 14px;text-transform:uppercase;letter-spacing:-.04em}.copy p{color:#c7c0b5;line-height:1.7;margin:0 0 16px}.spec{display:grid;grid-template-columns:1fr;gap:10px;margin:18px 0}.spec div{border-left:3px solid var(--blue);padding:10px 12px;background:rgba(255,255,255,.035);font:700 12px/1.45 ui-monospace,monospace;text-transform:uppercase;color:#d8d1c7}.spec div:nth-child(2n){border-left-color:var(--red)}.formula{white-space:pre-wrap;background:#030305;border:1px solid rgba(255,255,255,.13);padding:16px;color:#e8e2d7;font:700 12px/1.65 ui-monospace,monospace;overflow:auto}.long{margin-top:22px;padding:28px}.long h2{font-size:44px;letter-spacing:-.06em;text-transform:uppercase;margin:0 0 16px}.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{border:1px solid var(--line);background:rgba(0,0,0,.28);padding:18px}.card h3{margin:0 0 10px;font-size:18px;text-transform:uppercase}.card p{margin:0;color:#bbb5aa;line-height:1.65}@media(max-width:900px){header,.grid,.cols{grid-template-columns:1fr}.canvasShell{height:560px}.controls{grid-template-columns:1fr}.badge{min-width:0}}
+</style>
+</head>
+<body class="noise">
+<div class="wrap">
+<header>
+ <div><div class="tag">Chromatic 17 / Fixed Fire Geometry</div><h1 class="title">Capacitance <span>Well</span></h1><p class="sub">Sixteen fixed color emitters, four per quadrant, all aimed at a central pure-white capacitance well. The well stores phase pressure, reports charge, then discharges only when coherence crosses threshold.</p></div>
+ <div class="badge">Mode: simulation<br>Emitters: 16 fixed<br>Center: point 17<br>Containment: 98%<br>Output: gated</div>
+</header>
+<section class="grid">
+ <div class="panel stage">
+  <div class="canvasShell">
+   <div class="readout">CENTER 17: <b>CAPACITANCE WELL</b><br>Charge: <span id="charge" class="hot">0.00</span><br>Coherence: <span id="coherence" class="cool">0.00</span><br>Containment: <b>98%</b></div>
+   <canvas id="c"></canvas>
+  </div>
+  <div class="controls"><button class="btn active" id="fire">Fire fixed array</button><button class="btn" id="pulse">Pulse mode</button><button class="btn" id="dump">Discharge well</button></div>
+ </div>
+ <aside class="panel copy">
+  <h2>What changed</h2>
+  <p>The emitters no longer orbit. They are bolted into a 4×4 chromatic lattice around the center. Each quadrant owns four beams. All beams converge on point 17.</p>
+  <div class="spec"><div>P0–P15: chromatic laser emitters, fixed in place.</div><div>P17: pure-white capacitance well, not a passive light.</div><div>98% of energy is retained as simulated cavity charge.</div><div>2% is allowed to escape as controlled output when discharged.</div></div>
+  <div class="formula">KERNEL
+LOCK_EMITTERS(16)
+AIM_ALL(center_17)
+FIRE_CHROMA(0..15)
+ACCUMULATE_WELL(retain=.98)
+MEASURE_PHASE()
+IF coherent: RELEASE_GATE(.02)
+ELSE: HOLD_AND_DAMP()</div>
+ </aside>
+</section>
+<section class="panel long">
+ <h2>Point 17 is the battery and the judge.</h2>
+ <div class="cols">
+  <div class="card"><h3>Fixed geometry</h3><p>Four quadrants prevent drift. Four beams per quadrant create symmetric pressure. No emitter gets to chase the center; the center must reconcile all incoming color vectors.</p></div>
+  <div class="card"><h3>Capacitance well</h3><p>The white center is drawn as a storage field. Incoming beams increase charge and phase density. The brighter ring means stored energy, not arbitrary glow.</p></div>
+  <div class="card"><h3>Gated release</h3><p>When coherence rises, the well can dump a narrow white pulse. If coherence is low, the well holds, damps, and prevents color bleed across boundaries.</p></div>
+ </div>
+</section>
+</div>
+<script>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr=1,charge=0,coherence=0,fire=true,pulse=false,dumping=false,t=0;const chargeEl=document.getElementById('charge'),cohEl=document.getElementById('coherence');
+const colors=['#7f00ff','#4b3cff','#006dff','#00b8ff','#00fff0','#00ff9d','#61ff00','#d7ff00','#fff000','#ffb000','#ff6a00','#ff2400','#ff006a','#ff00b8','#d000ff','#ffffff'];
+function resize(){dpr=devicePixelRatio||1;const r=canvas.getBoundingClientRect();W=r.width;H=r.height;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+function emitters(){const cx=W/2,cy=H/2,R=Math.min(W,H)*.39;let pts=[];for(let q=0;q<4;q++){const base=q*Math.PI/2+Math.PI/4;for(let i=0;i<4;i++){const off=(-1.5+i)*0.13;const a=base+off;pts.push({x:cx+Math.cos(a)*R,y:cy+Math.sin(a)*R,a,color:colors[pts.length]})}}return pts}
+function draw(){t+=.016;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2;const pts=emitters();
+ctx.fillStyle='rgba(255,255,255,.035)';for(let r=70;r<Math.min(W,H)*.45;r+=54){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,.055)';ctx.stroke()}
+let active=fire && (!pulse || Math.sin(t*5)>-.15);if(active) charge=Math.min(1,charge+.0045); else charge=Math.max(0,charge-.002); if(dumping){charge=Math.max(0,charge-.022)} coherence=.55+.45*Math.sin(t*1.1)*Math.sin(t*.7); coherence=Math.max(0,Math.min(1,coherence*charge+charge*.35));
+pts.forEach((p,i)=>{const dx=cx-p.x,dy=cy-p.y;ctx.save();ctx.strokeStyle=p.color;ctx.lineWidth=active?2.4:1;ctx.globalAlpha=active?.78:.22;ctx.shadowColor=p.color;ctx.shadowBlur=active?18:3;ctx.beginPath();ctx.moveTo(p.x,p.y);const bend=Math.sin(t*2+i)*8;ctx.quadraticCurveTo((p.x+cx)/2+bend,(p.y+cy)/2-bend,cx,cy);ctx.stroke();ctx.restore();ctx.fillStyle='#07070a';ctx.strokeStyle=p.color;ctx.lineWidth=2;ctx.shadowColor=p.color;ctx.shadowBlur=14;ctx.beginPath();ctx.arc(p.x,p.y,13,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=p.color;ctx.font='700 10px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(String(i).padStart(2,'0'),p.x,p.y+3)});
+const grd=ctx.createRadialGradient(cx,cy,0,cx,cy,70+charge*70);grd.addColorStop(0,'rgba(255,255,255,1)');grd.addColorStop(.25,'rgba(255,255,255,.9)');grd.addColorStop(.55,`rgba(50,231,255,${.22+charge*.35})`);grd.addColorStop(1,'rgba(255,36,77,0)');ctx.fillStyle=grd;ctx.beginPath();ctx.arc(cx,cy,75+charge*60,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle=`rgba(255,255,255,${.45+charge*.45})`;ctx.lineWidth=2+charge*5;ctx.shadowColor='#fff';ctx.shadowBlur=20+charge*38;ctx.beginPath();ctx.arc(cx,cy,34+Math.sin(t*6)*3+charge*18,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cx,cy,14+charge*8,0,Math.PI*2);ctx.fill();
+if(dumping&&charge>.05){ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=4;ctx.shadowColor='#fff';ctx.shadowBlur=30;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(W-30,cy);ctx.stroke();ctx.shadowBlur=0}
+chargeEl.textContent=charge.toFixed(2);cohEl.textContent=coherence.toFixed(2);requestAnimationFrame(draw)}draw();
+document.getElementById('fire').onclick=e=>{fire=!fire;e.target.classList.toggle('active',fire)};document.getElementById('pulse').onclick=e=>{pulse=!pulse;e.target.classList.toggle('active',pulse)};document.getElementById('dump').onclick=e=>{dumping=true;e.target.classList.add('active');setTimeout(()=>{dumping=false;e.target.classList.remove('active')},1200)};
+</script>
+</body>
+</html>

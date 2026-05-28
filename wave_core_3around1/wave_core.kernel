@@ -1,0 +1,35 @@
+WAVE_CORE_3_AROUND_1.kernel
+
+PURPOSE
+  Simulated wave-beam topology: three orbiting phase rails around one fixed centerline carrier.
+  Inspired by wave-gun geometry, expressed as 27->0->27 mountain-bore propagation.
+
+CORE LAW
+  ONE_CENTER_EVERY_TIME = true
+  ORBIT_RAILS = 3
+  PHASE_SEPARATION = 120 degrees
+  GATES = 27
+  COLLAPSE_GATE = 27
+  COLLAPSE_MAP = 27 -> 0 -> 27
+
+STATE
+  center.carrier = WHITE
+  center.lock = BORE_AXIS
+  orbit[0] = CYAN phase 0
+  orbit[1] = RED phase 120
+  orbit[2] = LIME phase 240
+  boundary.no_bleed = true
+
+EXECUTION
+  FIRE()
+  FOR gate 0..27:
+    CENTER stays on axis
+    ORBIT wraps around center
+    REPORT phase, gate, amplitude
+  AT gate 27:
+    COMPRESS_TO_ZERO()
+    RELEASE_AS_27()
+    RESET_PHASE()
+
+SAFETY
+  Simulation only. No physical laser construction parameters. No weaponization.

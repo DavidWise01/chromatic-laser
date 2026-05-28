@@ -1,0 +1,25 @@
+CHROMATIC_17_CAPACITANCE_WELL_KERNEL v1.0
+
+PURPOSE
+  Fixed 16-emitter chromatic cavity simulation with point 17 as a pure-white capacitance well.
+
+TOPOLOGY
+  P00-P15 = fixed chromatic emitters
+  P17     = capacitance well / white coherence store
+  QUADS   = 4 quadrants, 4 emitters each
+
+RULES
+  1. Emitters remain fixed in place.
+  2. Every emitter aims at P17.
+  3. P17 retains 98% simulated energy.
+  4. P17 may release 2% only through a gated coherence discharge.
+  5. Boundary bleed is damped, not propagated.
+
+LOOP
+  LOCK_EMITTERS(16)
+  FIRE_CHROMA(0..15)
+  ACCUMULATE(P17, retain=0.98)
+  MEASURE_PHASE(P17)
+  IF COHERENCE >= threshold THEN RELEASE_GATE(0.02)
+  ELSE HOLD_AND_DAMP()
+  REPEAT

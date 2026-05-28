@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CHROMATIC-32 // Capacitance Well</title>
+<style>
+:root{
+  --bg:#050507;--ink:#f7f2e8;--muted:#9b9488;--line:#2a2727;--hot:#ff2b2b;--cold:#44d9ff;--white:#fff;--paper:#eee7d8;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(circle at 50% 30%,#000 0 55%,transparent 90%);z-index:-2}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.08),transparent 24%),radial-gradient(circle at 18% 20%,rgba(255,0,80,.15),transparent 28%),radial-gradient(circle at 82% 70%,rgba(0,180,255,.12),transparent 30%);z-index:-3}
+header{padding:28px clamp(18px,4vw,54px);display:flex;justify-content:space-between;gap:22px;align-items:flex-start;border-bottom:1px solid var(--line);background:rgba(5,5,7,.82);backdrop-filter:blur(14px);position:sticky;top:0;z-index:10}
+.logo{font-weight:900;letter-spacing:-.07em;font-size:clamp(28px,5vw,72px);line-height:.8}.logo span{color:var(--hot);text-shadow:3px 0 0 var(--cold)}
+.meta{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);font-size:12px;line-height:1.6;text-align:right;max-width:390px}.meta b{color:var(--ink)}
+main{max-width:1500px;margin:0 auto;padding:28px clamp(14px,3vw,40px) 80px}.hero{display:grid;grid-template-columns:minmax(320px,1fr) 420px;gap:22px;align-items:stretch}.stage,.panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));box-shadow:0 24px 80px rgba(0,0,0,.55)}
+.stage{position:relative;min-height:760px;overflow:hidden}.stage-title{position:absolute;left:22px;top:18px;z-index:2;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#ddd;font-size:12px;letter-spacing:.18em;text-transform:uppercase}.stage-title strong{color:#fff}.canvas-wrap{position:absolute;inset:0}canvas{width:100%;height:100%;display:block}.readout{position:absolute;left:22px;bottom:22px;right:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;z-index:2}.tile{border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.56);padding:12px 14px;backdrop-filter:blur(12px)}.tile .k{font:10px ui-monospace,monospace;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}.tile .v{font:700 22px ui-monospace,monospace;margin-top:4px}.panel{padding:24px;display:flex;flex-direction:column;gap:18px}.panel h1{font-size:clamp(36px,4.2vw,64px);line-height:.86;margin:0;letter-spacing:-.06em}.panel h1 em{font-style:normal;color:var(--hot)}.panel p{color:#c9c2b7;line-height:1.72;margin:0}.callout{border-left:4px solid var(--hot);background:rgba(255,43,43,.08);padding:14px 16px;color:#f2dfdf}.controls{display:grid;gap:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0}.control label{display:flex;justify-content:space-between;color:var(--muted);font:12px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}.control input{width:100%;accent-color:#fff}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px}button{background:#101014;color:#fff;border:1px solid #3b3838;padding:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;cursor:pointer}button:hover{border-color:#fff;background:#19191f}.danger{background:rgba(255,43,43,.15);border-color:rgba(255,43,43,.45)}.spec{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}.card{border:1px solid var(--line);background:rgba(255,255,255,.025);padding:22px;min-height:210px}.card h2{margin:0 0 12px;font-size:26px;letter-spacing:-.04em}.card p,.card li{color:#bdb5aa;line-height:1.65}.card code{color:#fff;background:#111;padding:2px 6px;border:1px solid #333}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;color:#d8d0c5;font-size:13px;line-height:1.5}.footer{margin-top:26px;border:1px solid var(--line);padding:24px;background:#070708}.footer h2{margin:0 0 10px;font-size:38px;letter-spacing:-.05em}@media(max-width:1050px){.hero{grid-template-columns:1fr}.stage{min-height:680px}.spec{grid-template-columns:1fr}.readout{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">CHROMATIC<span>32</span></div>
+  <div class="meta"><b>fixed laser cavity prototype</b><br>32 emitters // 8 per quad // phase step .01<br>all beams fire inward to point 17 capacitance well</div>
+</header>
+<main>
+<section class="hero">
+  <div class="stage">
+    <div class="stage-title"><strong>live cavity</strong> / fixed emitters / inward coherence</div>
+    <div class="canvas-wrap"><canvas id="c"></canvas></div>
+    <div class="readout">
+      <div class="tile"><div class="k">emitters</div><div class="v">32</div></div>
+      <div class="tile"><div class="k">phase</div><div class="v" id="phase">0.00</div></div>
+      <div class="tile"><div class="k">well charge</div><div class="v" id="charge">0%</div></div>
+      <div class="tile"><div class="k">output</div><div class="v" id="output">0%</div></div>
+    </div>
+  </div>
+  <aside class="panel">
+    <h1>Thirty-two fixed beams. One <em>white</em> well.</h1>
+    <p>This is a clean 1:1 simulation of the concept: sixteen became thirty-two. The emitters do not orbit. They are fixed to a doubled quadrant lattice and fire inward on every .01 phase tick.</p>
+    <div class="callout">The center is not a passive dot. It is a capacitance well: it accumulates incoming chromatic energy, saturates toward white, then vents controlled coherence through a visible pulse.</div>
+    <div class="controls">
+      <div class="control"><label><span>pump gain</span><b id="gainLabel">0.72</b></label><input id="gain" type="range" min="0" max="1" step="0.01" value="0.72"></div>
+      <div class="control"><label><span>containment</span><b id="containLabel">0.98</b></label><input id="contain" type="range" min="0.80" max="0.995" step="0.001" value="0.98"></div>
+      <div class="control"><label><span>well capacitance</span><b id="capLabel">1.00</b></label><input id="cap" type="range" min="0.25" max="2.5" step="0.01" value="1.00"></div>
+    </div>
+    <div class="buttons"><button id="pulse">pulse</button><button class="danger" id="drain">drain</button></div>
+    <p class="mono">kernel: LOCK_32 → STEP(.01) → FIRE_CENTER → ACCUMULATE_17 → CONTAIN(98%) → RELEASE_EXCESS → REPORT</p>
+  </aside>
+</section>
+<section class="spec">
+  <div class="card"><h2>Geometry</h2><p>Four quadrants. Eight emitters per quadrant. Each emitter has a fixed position, fixed color, and a phase offset. All vectors terminate at the same point: <code>P17</code>, the central white capacitance well.</p></div>
+  <div class="card"><h2>Timing</h2><p>Every animation tick advances the model by <code>.01</code>. The phase controls beam intensity, not position. This keeps the cavity physically readable: fixed hardware, variable field.</p></div>
+  <div class="card"><h2>Containment</h2><p>The well retains most incoming energy. Excess energy is released as a controlled white output pulse. The default containment is <code>0.98</code>, matching the earlier 98/2 cavity law.</p></div>
+</section>
+<section class="footer"><h2>Prototype rule</h2><p class="mono">32 colors enter. 1 white well stores. 0 bleed across boundary. .01 advances the field. When the well saturates, the system reports by releasing coherence, not by scattering.</p></section>
+</main>
+<script>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W=0,H=0,DPR=1;let phase=0,charge=0,blast=0;
+const ui={phase:document.getElementById('phase'),charge:document.getElementById('charge'),output:document.getElementById('output'),gain:document.getElementById('gain'),contain:document.getElementById('contain'),cap:document.getElementById('cap'),gainLabel:document.getElementById('gainLabel'),containLabel:document.getElementById('containLabel'),capLabel:document.getElementById('capLabel')};
+function resize(){DPR=Math.min(2,devicePixelRatio||1);const r=canvas.getBoundingClientRect();W=r.width;H=r.height;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}addEventListener('resize',resize);resize();
+function hsl(i){return `hsl(${Math.round(i*360/32)},95%,62%)`}
+function emitters(){const cx=W/2,cy=H/2+18;const margin=90;const pts=[];const perSide=8;for(let i=0;i<perSide;i++){let t=(i+0.5)/perSide;pts.push({x:margin+t*(W-2*margin),y:margin,q:0,i});pts.push({x:W-margin,y:margin+t*(H-2*margin),q:1,i:i+8});pts.push({x:W-margin-t*(W-2*margin),y:H-margin,q:2,i:i+16});pts.push({x:margin,y:H-margin-t*(H-2*margin),q:3,i:i+24});}return pts.map((p,idx)=>({...p,c:hsl(idx),idx,target:{x:cx,y:cy}}))}
+function line(x1,y1,x2,y2,color,a,w){ctx.strokeStyle=color;ctx.globalAlpha=a;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.globalAlpha=1}
+function draw(){const gain=+ui.gain.value,contain=+ui.contain.value,cap=+ui.cap.value;ui.gainLabel.textContent=gain.toFixed(2);ui.containLabel.textContent=contain.toFixed(3);ui.capLabel.textContent=cap.toFixed(2);phase=(phase+0.01)%1;ctx.clearRect(0,0,W,H);ctx.fillStyle='rgba(5,5,7,0.92)';ctx.fillRect(0,0,W,H);const pts=emitters();const cx=W/2,cy=H/2+18;ctx.save();ctx.translate(cx,cy);ctx.strokeStyle='rgba(255,255,255,.06)';for(let r=70;r<Math.min(W,H)/2;r+=70){ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.stroke()}ctx.restore();let input=0;pts.forEach((p,idx)=>{const osc=(Math.sin((phase+idx/32)*Math.PI*2)+1)/2;const power=(0.25+osc*0.75)*gain;input+=power/32;line(p.x,p.y,cx,cy,p.c,0.08+power*0.42,1+power*2.4);ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=16;ctx.beginPath();ctx.arc(p.x,p.y,7+power*3,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='10px ui-monospace,monospace';ctx.fillText(String(idx+1).padStart(2,'0'),p.x-7,p.y-15)});
+charge += input*(1-contain)*0.9 + input*contain*0.03;charge -= 0.004/cap;if(charge<0)charge=0;if(charge>cap){blast=Math.min(1,blast+0.8);charge=cap*.72}blast*=0.93;const pct=Math.min(1,charge/cap);const grad=ctx.createRadialGradient(cx,cy,0,cx,cy,90+blast*90);grad.addColorStop(0,'rgba(255,255,255,1)');grad.addColorStop(.18,`rgba(255,255,255,${0.7+pct*.3})`);grad.addColorStop(.55,`rgba(80,210,255,${.18+pct*.22})`);grad.addColorStop(1,'rgba(255,43,43,0)');ctx.fillStyle=grad;ctx.beginPath();ctx.arc(cx,cy,100+blast*95,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,34+pct*22+blast*20,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#fff';ctx.shadowColor='#fff';ctx.shadowBlur=36;ctx.beginPath();ctx.arc(cx,cy,18+pct*18,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;if(blast>.05){line(cx,cy,W+20,cy,'white',blast,4+blast*14);line(cx,cy,W+20,cy+24,'rgba(68,217,255,1)',blast*.45,2+blast*8);line(cx,cy,W+20,cy-24,'rgba(255,43,43,1)',blast*.35,2+blast*6)}ui.phase.textContent=phase.toFixed(2);ui.charge.textContent=Math.round(pct*100)+'%';ui.output.textContent=Math.round(blast*100)+'%';requestAnimationFrame(draw)}
+document.getElementById('pulse').onclick=()=>{blast=1};document.getElementById('drain').onclick=()=>{charge=0;blast=0};draw();
+</script>
+</body>
+</html>

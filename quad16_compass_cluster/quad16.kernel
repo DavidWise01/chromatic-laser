@@ -1,0 +1,46 @@
+QUAD16_COMPASS_CLUSTER_KERNEL v1.0
+
+MODEL
+  ORIGIN: 0
+  GRID: 4x4 = 16 nodes on zero-field
+  DIRECTIONS: N S E W
+  ARM_MODEL: 3_AROUND_1 x 4
+  PHASE_STEP: 0.25 per directional commit
+  PULSE_PATTERN: 27 00 27 00 27 00
+
+TOPOLOGY
+  Four arms extend from origin.
+  Each arm contains one center carrier and three orbiting wave nodes.
+  4 arms x 4 nodes = 16 total.
+
+DIRECTIONAL CLUSTERS
+  NORTH: N0 core, N1/N2/N3 orbit
+  SOUTH: S0 core, S1/S2/S3 orbit
+  EAST:  E0 core, E1/E2/E3 orbit
+  WEST:  W0 core, W1/W2/W3 orbit
+
+RULES
+  START_AT_ZERO()
+  PLACE_16_ON_ZERO()
+  FOR EACH DIRECTION IN [N,E,S,W]:
+    FIRE_3_AROUND_1(direction)
+    WALK_27()
+    COLLAPSE_00()
+    WALK_27()
+    COLLAPSE_00()
+    WALK_27()
+    COLLAPSE_00()
+    PHASE += 0.25
+  WHEN PHASE == 1.00:
+    FULL_COMPASS_CYCLE_COMPLETE()
+    RETURN_ZERO()
+    REPEAT()
+
+BOUNDARY
+  NO_BLEED across directional arms.
+  The center carrier remains aligned to origin.
+  Orbit nodes may rotate but not cross into another arm.
+
+INTENT
+  A symbolic low-power optical/wave simulation kernel.
+  Not a weapon, not a physical high-energy laser build specification.

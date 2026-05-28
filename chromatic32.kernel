@@ -1,0 +1,31 @@
+CHROMATIC32_CAPACITANCE_WELL_KERNEL
+version: rebuilt_from_zero_v1
+purpose: fixed 32-emitter optical-cavity simulation
+
+POINTS:
+  P17 = central white capacitance well
+  E01-E32 = fixed chromatic emitters
+
+GEOMETRY:
+  4 quadrants
+  8 emitters per quadrant
+  all emitter vectors terminate at P17
+  emitter position is fixed
+  only phase/intensity changes
+
+TIMING:
+  dt = 0.01
+  phase = (phase + dt) mod 1.00
+
+LAW:
+  LOCK_32
+  STEP(0.01)
+  FIRE_CENTER
+  ACCUMULATE(P17)
+  CONTAIN(default=0.98)
+  RELEASE_EXCESS_AS_WHITE_OUTPUT
+  REPORT
+
+BOUNDARY:
+  no bleed across cavity wall
+  output is legal only through coherence release

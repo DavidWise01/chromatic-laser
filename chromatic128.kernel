@@ -1,0 +1,49 @@
+# CHROMATIC-128 PHASE WELL KERNEL
+# First-author conceptual optical-cavity simulation
+# Static, local-only, non-instructional prototype
+
+NAME: Chromatic128PhaseWell
+VERSION: 1.0
+MODE: simulation
+SAFETY: no physical laser build parameters, no power supply design, no hazardous instructions
+
+GEOMETRY:
+  TOTAL_EMITTERS: 128
+  UPPER_RING: 64
+  LOWER_RING: 64
+  CENTER: capacitance_well
+  CENTER_INDEX: 129
+  STEP_RESOLUTION: 0.001
+  FIRE_MODE: fixed_position_to_center
+  BOUNDARY: no_bleed
+
+CENTER_WELL:
+  ROLE: capacitive integration node
+  COLOR: pure_white
+  INPUTS: 128 chromatic beams
+  ACCUMULATION: normalized_sum
+  DISCHARGE: pulse_when_charge_exceeds_threshold
+  LEAKAGE: controlled_decay
+
+PHASE_RULE:
+  upper_phase = emitter_index * 0.001
+  lower_phase = upper_phase + 0.5
+  pair_rule = upper[i] mirrors lower[i]
+  coherence = 1 - abs(upper_phase - inverse(lower_phase))
+
+KERNEL_LOOP:
+  OBSERVE beams
+  ALIGN fixed emitters
+  STEP phase by 0.001
+  FIRE upper64 and lower64 into well
+  ACCUMULATE center charge
+  DISCHARGE if threshold reached
+  DECAY residual energy
+  REPORT coherence, charge, discharge_count
+  REPEAT
+
+LAW:
+  128 colors may move.
+  The center remains white.
+  The beams are fixed.
+  The well decides when coherence becomes output.

@@ -1,0 +1,13 @@
+Item,Qty,Notes
+Microcontroller,1,ESP32 / RP2040 / Arduino-class board
+Addressable RGB LEDs or low-power LEDs,128,Use LEDs for first prototype
+LED driver ICs or LED strip controller,as needed,Constant-current preferred for discrete LEDs
+Current-limiting resistors,128,Required for discrete LEDs
+Diffuser center target,1,Frosted acrylic or translucent plastic
+Photodiode or light sensor,1,Optional center well feedback
+5V DC power supply,1,Current-rated with margin
+Fuse or resettable polyfuse,1,Input protection
+Emergency stop switch,1,Recommended
+Enclosure,1,Required if using laser modules
+Wiring / PCB / perfboard,as needed,Keep banks organized
+Thermal sensor,1,Optional but recommended

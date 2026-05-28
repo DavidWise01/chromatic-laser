@@ -1,0 +1,35 @@
+LINEAR_CORE_ARRAY v1.0
+mode: safe reference + simulator
+axis: X
+step_resolution: .001
+segments: 16
+alignment_gates: 4
+containment: required
+
+states:
+  -1 SAFE_HOLD
+   0 WAKE
+   1 ALIGN
+   2 EMIT_SEGMENT
+   3 GATE_CHECK
+   4 ACCUMULATE
+   5 REPORT_RESET
+
+rules:
+  no exposed beam path
+  no unbounded output
+  no gate bypass
+  no bleed across containment walls
+  shutdown on telemetry disagreement
+
+loop:
+  PLANT(-1)
+  WAKE(0)
+  ALIGN(axis=X)
+  FOR segment 0..15:
+    EMIT(low_power)
+    GATE(phase += .001)
+    CLAMP(no_bleed)
+  ACCUMULATE(exit_well)
+  REPORT()
+  RESET()

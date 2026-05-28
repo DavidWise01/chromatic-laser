@@ -1,0 +1,33 @@
+# FIXED 6-AROUND-1 COMPASS KERNEL
+
+NAME: fixed_6around1_compass
+MODE: local symbolic simulator
+GEOMETRY: no spin, no drift, fixed stations
+
+STRUCTURE:
+  CENTER: ZERO_WELL = 0
+  STATIONS: N, S, E, W
+  EACH_STATION: 6 satellites around 1 local carrier
+  TOTAL_NODES: 4 * 7 + 1 center = 29
+
+PULSE LAW:
+  START: 0
+  FOR EACH STATION IN [N,E,S,W]:
+    FIRE(6 satellites + 1 carrier)
+    PUSH_TO_CENTER()
+    COLLAPSE: 27 -> 00
+    REOPEN: 00 -> 27
+    PHASE += 0.25
+
+BOUNDARY:
+  no spin
+  no bleed
+  one active station per tick
+  fixed position
+
+SYMBOL:
+  N: 6 around 1
+  E: 6 around 1
+  S: 6 around 1
+  W: 6 around 1
+  CENTER: 0 / 00 well

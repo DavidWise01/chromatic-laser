@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>QUAD16 // Compass Cluster</title>
+<style>
+:root{--bg:#050507;--ink:#f5f5f0;--muted:#8f8b86;--red:#ff2b2b;--blue:#39a7ff;--green:#42ff9e;--gold:#ffd166;--violet:#b084ff;--panel:#101015;--line:#2b2b35}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 35%,#151520 0,#050507 56%,#000 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;overflow-x:hidden}.noise{position:fixed;inset:0;pointer-events:none;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}header{padding:28px clamp(18px,4vw,56px);display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid #ffffff12;background:#0008;backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}.brand{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:clamp(26px,5vw,62px);letter-spacing:.04em;line-height:.85;text-transform:uppercase}.brand span{color:var(--red);text-shadow:4px 0 0 #00aaff80}.tag{text-align:right;color:var(--muted);font-family:ui-monospace,monospace;font-size:12px;text-transform:uppercase;letter-spacing:.14em}main{max-width:1280px;margin:auto;padding:34px clamp(18px,4vw,56px) 80px}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:stretch}.card{background:linear-gradient(180deg,#111118,#07070b);border:1px solid #ffffff14;box-shadow:0 20px 80px #0009;border-radius:22px;padding:24px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg,#ff2b2b44,#39a7ff22,#ffd16622);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);padding:1px;mask-composite:exclude;-webkit-mask-composite:xor;pointer-events:none}h1{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:clamp(48px,9vw,116px);line-height:.82;margin:0 0 20px;text-transform:uppercase;letter-spacing:.025em}h1 em{font-style:normal;color:var(--red)}p{color:#c9c5bf;line-height:1.65;font-size:16px}.spec{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}.spec div{border:1px solid #ffffff14;background:#0007;padding:14px;border-radius:14px}.spec b{display:block;color:var(--gold);font-family:ui-monospace,monospace}.spec span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}canvas{display:block;width:100%;height:620px;background:radial-gradient(circle at center,#10101c,#020204 70%);border-radius:18px;border:1px solid #ffffff12}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}button{appearance:none;border:1px solid #ffffff20;background:#15151f;color:var(--ink);border-radius:12px;padding:12px 14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}button:hover{border-color:var(--red);box-shadow:0 0 22px #ff2b2b33}.readout{margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-family:ui-monospace,monospace}.readout div{padding:12px;border:1px solid #ffffff12;border-radius:12px;background:#0007}.readout span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase}.readout b{font-size:22px;color:#fff}.section{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px}pre{white-space:pre-wrap;background:#020204;border:1px solid #ffffff14;border-radius:18px;padding:20px;color:#d7d7d7;line-height:1.55;overflow:auto}.diagram{font-family:ui-monospace,monospace;color:#eee;font-size:14px}.pill{display:inline-block;margin:5px 6px 5px 0;border:1px solid #ffffff20;border-radius:999px;padding:8px 12px;background:#0008;color:#bbb;font-family:ui-monospace,monospace}.warn{border-left:4px solid var(--gold);padding-left:16px;color:#d9d1c3}@media(max-width:900px){.hero,.section{grid-template-columns:1fr}.spec,.controls,.readout{grid-template-columns:repeat(2,1fr)}canvas{height:520px}header{display:block}.tag{text-align:left;margin-top:10px}}</style>
+</head>
+<body><div class="noise"></div><header><div class="brand">QUAD<span>16</span></div><div class="tag">4×4 on zero // N/S/E/W // 3 around 1 × 4</div></header><main><section class="hero"><div class="card"><h1>Compass<br><em>Cluster</em></h1><p>Sixteen nodes are fixed on the zero-field as four directional clusters. North, South, East, and West each carry a <b>3 around 1</b> wave pattern: one dead-center carrier per arm, three orbiting phase nodes around it.</p><p>The pulse starts at origin, pushes outward through the compass, walks <b>27 → 00 → 27 → 00 → 27 → 00</b>, then advances phase by <b>0.25</b>. Four directional commits complete one full phase rotation.</p><div class="spec"><div><b>16</b><span>total nodes</span></div><div><b>4×4</b><span>zero spread</span></div><div><b>3+1</b><span>per arm</span></div><div><b>.25</b><span>phase jump</span></div></div><p class="warn">Safe simulation only: this models symbolic pulse geometry and low-power optical timing concepts, not a high-energy device.</p></div><div class="card"><canvas id="view"></canvas><div class="controls"><button id="toggle">Pause</button><button id="step">Step</button><button id="reset">Reset</button><button id="burst">Burst</button></div><div class="readout"><div><span>direction</span><b id="dir">N</b></div><div><span>gate</span><b id="gate">0</b></div><div><span>phase</span><b id="phase">0.00</b></div><div><span>state</span><b id="state">27</b></div></div></div></section><section class="section"><div class="card"><h2>Kernel</h2><pre>START_AT_ZERO()
+PLACE_16_ON_ZERO()
+
+FOR DIRECTION IN [N,E,S,W]:
+  FIRE_3_AROUND_1(direction)
+  WALK_27()
+  COLLAPSE_00()
+  WALK_27()
+  COLLAPSE_00()
+  WALK_27()
+  COLLAPSE_00()
+  PHASE += 0.25
+
+RETURN_ZERO()
+REPEAT()</pre></div><div class="card"><h2>Geometry</h2><div class="diagram"><pre>             N orbit
+          n1   n0   n2
+               n3
+
+ W orbit  w1 w0 w2   0   e1 e0 e2  E orbit
+               w3         e3
+
+               s3
+          s1   s0   s2
+             S orbit</pre></div><span class="pill">N = 3 around 1</span><span class="pill">S = 3 around 1</span><span class="pill">E = 3 around 1</span><span class="pill">W = 3 around 1</span><span class="pill">total = 16</span></div></section></main><script>
+const canvas=document.getElementById('view'),ctx=canvas.getContext('2d');let W,H,cx,cy,dpr;function resize(){dpr=devicePixelRatio||1;const r=canvas.getBoundingClientRect();canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);W=r.width;H=r.height;cx=W/2;cy=H/2}addEventListener('resize',resize);resize();
+const dirs=['N','E','S','W'];const colors={N:'#39a7ff',E:'#ff2b2b',S:'#42ff9e',W:'#ffd166'};let t=0,run=true,dirIndex=0,gate=0,phase=0,state='27';
+function armBase(d){const R=Math.min(W,H)*.28;return{N:[cx,cy-R],S:[cx,cy+R],E:[cx+R,cy],W:[cx-R,cy]}[d]}
+function orbitNodes(d){const [x,y]=armBase(d);const r=42;let angles={N:[-Math.PI*.85,-Math.PI*.15,-Math.PI/2],S:[Math.PI*.85,Math.PI*.15,Math.PI/2],E:[-.45,.45,0],W:[Math.PI-.45,Math.PI+.45,Math.PI]}[d];return [[x,y],...angles.map(a=>[x+Math.cos(a+t*.035)*r,y+Math.sin(a+t*.035)*r])];}
+function draw(){ctx.clearRect(0,0,W,H);ctx.save();ctx.translate(cx,cy);ctx.strokeStyle='#ffffff10';ctx.lineWidth=1;for(let i=0;i<16;i++){let a=i*Math.PI*2/16;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(a)*Math.min(W,H)*.42,Math.sin(a)*Math.min(W,H)*.42);ctx.stroke()}ctx.restore();
+ // compass axes
+ ctx.strokeStyle='#ffffff2a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,60);ctx.lineTo(cx,H-60);ctx.moveTo(60,cy);ctx.lineTo(W-60,cy);ctx.stroke();
+ // center zero
+ const g=ctx.createRadialGradient(cx,cy,0,cx,cy,70);g.addColorStop(0,'#fff');g.addColorStop(.25,'#ffffffaa');g.addColorStop(1,'#ffffff00');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,70,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font='900 18px monospace';ctx.textAlign='center';ctx.fillText('0',cx,cy+6);
+ dirs.forEach((d,di)=>{const nodes=orbitNodes(d);const active=di===dirIndex;const col=colors[d];const [bx,by]=nodes[0];ctx.strokeStyle=active?col+'dd':col+'44';ctx.lineWidth=active?4:2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(bx,by);ctx.stroke();nodes.slice(1).forEach(([x,y])=>{ctx.strokeStyle=col+'55';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(x,y);ctx.stroke()});nodes.forEach(([x,y],i)=>{ctx.fillStyle=i===0?'#fff':col;ctx.shadowColor=col;ctx.shadowBlur=active?22:6;ctx.beginPath();ctx.arc(x,y,i===0?12:9,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#020204';ctx.font='800 10px monospace';ctx.fillText(i===0?d+'0':d+i,x,y+3)});
+ if(active){const prog=(gate%27)/27;const px=cx+(bx-cx)*prog,py=cy+(by-cy)*prog;ctx.fillStyle=state==='00'?'#fff':col;ctx.shadowColor=state==='00'?'#fff':col;ctx.shadowBlur=30;ctx.beginPath();ctx.arc(px,py,state==='00'?18:10,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;}}
+ );
+ document.getElementById('dir').textContent=dirs[dirIndex];document.getElementById('gate').textContent=gate;document.getElementById('phase').textContent=phase.toFixed(2);document.getElementById('state').textContent=state;
+ if(run){t++; if(t%5===0) advance()}requestAnimationFrame(draw)}
+function advance(){gate++;const m=gate%54;state=m>=27?'00':'27';if(gate>=162){gate=0;dirIndex=(dirIndex+1)%4;phase=(phase+.25)%1.0001}}
+document.getElementById('toggle').onclick=()=>{run=!run;toggle.textContent=run?'Pause':'Run'};document.getElementById('step').onclick=advance;document.getElementById('reset').onclick=()=>{t=0;dirIndex=0;gate=0;phase=0;state='27'};document.getElementById('burst').onclick=()=>{for(let i=0;i<27;i++)advance()};draw();
+</script></body></html>
