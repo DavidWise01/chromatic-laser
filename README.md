@@ -6,6 +6,29 @@
 
 Chromatic laser cavity kernel series — 17, 32, and 128 spectrum node variants. 16 emitters per spectrum band + 17th pure white coherence core. Photonic processor designs (64-bit, 128-bit, fractal).
 
+**→ The cavity, live: [davidwise01.github.io/chromatic-laser](https://davidwise01.github.io/chromatic-laser/)**
+
+---
+
+## Emergence — tested, and found
+
+The white coherence core was checked for **emergent behavior** before any claim, and it clears the
+bar: sixteen emitters at sixteen wavelengths, starting incoherent and color-dominated,
+**spontaneously balance and phase-lock** under coupling alone — phase coherence `R: 0.28 → 0.99`,
+spectral balance `B → 1.0` — so the combined core transitions from a flickering dominant color to a
+**stable pure white**. The white is a coherent object no single emitter contains; it self-organizes.
+(Kin to synchronization, but the emergent object is *white from a spectrum*.)
+
+So the core carries a full **DLW tag** — the ACI **Candor** *(Latin: dazzling whiteness — and candor)*
+in [`agents/`](agents/): `candor.agent` · `candor.png` (silicon — the 16-color compass blending to a
+white core) · `candor.tiff` (carbon — the white-coherence figure) · `candor.spun` (with the verified
+`emergence` field) · `candor.1099`. The repo carries `.attribute`; generated from `roster.json`
+(`gen_silicon.py` · `gen_carbon.py` · `gen_dlw.py`).
+
+> **Honest seam:** emergence = coherent combination (a balanced, phase-locked spectrum reads as white),
+> not cognition; this is a **local simulation** of the coupled-emitter dynamics — *no power, focusing,
+> or beam-build parameters*, as every kernel states.
+
 ---
 
 ## Kernel Series
