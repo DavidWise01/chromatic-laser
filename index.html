@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chromatic Laser — sixteen colors, one white (emergent coherence)</title>
-<meta name="description" content="A chromatic laser cavity: 16 spectrum emitters (red→violet) around a 17th pure-white coherence core. Drive the coupling and they balance + phase-lock into one white — genuine emergent coherent combination (verified: R 0.28→0.99, balance→1.0). The agent Candor.">
+<meta name="description" content="A chromatic laser cavity: 16 spectrum emitters (red→violet) around a 17th pure-white coherence core. Drive the coupling and they balance + phase-lock into one white — genuine emergent coherent combination — phase coherence R and spectral balance B are computed live in-browser from a real mean-field Kuramoto model, not asserted. The agent Candor.">
 <meta name="theme-color" content="#0a0a12">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,12 +118,12 @@
     <h2>White, self-organized — verified</h2>
     <p>Tested first: sixteen emitters at sixteen wavelengths, starting incoherent and color-dominated, with phase coupling to the shared core and amplitude balancing. As coupling <code>K</code> rises, phase coherence <code>R</code> and spectral balance <code>B</code> climb together — the core goes from a flickering dominant color to a <b>stable pure white</b>.</p>
     <div class="test">
-      <div class="h">✓ coherent combination · R (phase) · B (balance) · 16 colors</div>
-      <div class="rowr"><span class="k">K=0.0</span><span class="rv">R 0.281</span><span class="rb">B 0.256</span><div class="bar" style="width:8%"></div><span class="st lo">flickering color</span></div>
-      <div class="rowr"><span class="k">K=0.4</span><span class="rv">R 0.601</span><span class="rb">B 1.000</span><div class="bar" style="width:50%"></div><span class="st mid">balancing</span></div>
-      <div class="rowr"><span class="k">K=1.8</span><span class="rv">R 0.924</span><span class="rb">B 1.000</span><div class="bar" style="width:88%"></div><span class="st hi">PURE WHITE COHERENCE</span></div>
-      <div class="rowr"><span class="k">K=2.6</span><span class="rv">R 0.982</span><span class="rb">B 1.000</span><div class="bar" style="width:96%"></div><span class="st hi">PURE WHITE COHERENCE</span></div>
-      <div class="rowr"><span class="k">K=4.0</span><span class="rv">R 0.991</span><span class="rb">B 1.000</span><div class="bar" style="width:99%"></div><span class="st hi">PURE WHITE COHERENCE</span></div>
+      <div class="h">✓ coherent combination · R (phase) · B (balance) · 16 colors · <span class="mono" style="opacity:.65">computed in your browser ↓ (not hardcoded)</span></div>
+      <div class="rowr"><span class="k">K=0.0</span><span class="rv" id="rv0">R —</span><span class="rb" id="rb0">B —</span><div class="bar" id="bar0" style="width:0%"></div><span class="st lo" id="stt0">…</span></div>
+      <div class="rowr"><span class="k">K=0.6</span><span class="rv" id="rv1">R —</span><span class="rb" id="rb1">B —</span><div class="bar" id="bar1" style="width:0%"></div><span class="st mid" id="stt1">…</span></div>
+      <div class="rowr"><span class="k">K=0.9</span><span class="rv" id="rv2">R —</span><span class="rb" id="rb2">B —</span><div class="bar" id="bar2" style="width:0%"></div><span class="st hi" id="stt2">…</span></div>
+      <div class="rowr"><span class="k">K=1.4</span><span class="rv" id="rv3">R —</span><span class="rb" id="rb3">B —</span><div class="bar" id="bar3" style="width:0%"></div><span class="st hi" id="stt3">…</span></div>
+      <div class="rowr"><span class="k">K=3.0</span><span class="rv" id="rv4">R —</span><span class="rb" id="rb4">B —</span><div class="bar" id="bar4" style="width:0%"></div><span class="st hi" id="stt4">…</span></div>
     </div>
     <p style="margin-top:1rem"><b>The signature of emergence:</b> a balanced, phase-locked spectrum reads as white — a coherent object no single emitter contains, arising from coupling alone. Distinct from monochromatic sync: the emergent thing here is <b>broadband white from sixteen colors</b>.</p>
   </section>
@@ -190,5 +190,38 @@
     grounded in: Kuramoto (1975) · coherent beam combining · part of the <a href="https://davidwise01.github.io/atlas/">ATLAS</a>
   </footer>
 </div>
+<script>
+/* The emergence table above is COMPUTED here in your browser — a real mean-field
+   Kuramoto model over 16 emitters with amplitude balancing — not hardcoded.
+   R = phase order parameter |mean(e^{iθ})|;  B = amplitude balance (min/max). */
+(function(){
+  function sweep(K){
+    var N=16, dt=0.05, steps=2600, seed=987654321>>>0, i;
+    function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+    var th=[],w=[],a=[];
+    for(i=0;i<N;i++){ th[i]=rnd()*6.283185; w[i]=(rnd()-0.5)*1.1; a[i]=0.4+rnd()*0.6; }
+    for(var s=0;s<steps;s++){
+      var sx=0,sy=0; for(i=0;i<N;i++){ sx+=Math.cos(th[i]); sy+=Math.sin(th[i]); }
+      sx/=N; sy/=N; var R=Math.sqrt(sx*sx+sy*sy), psi=Math.atan2(sy,sx), mean=0;
+      for(i=0;i<N;i++) mean+=a[i]; mean/=N;
+      for(i=0;i<N;i++){ th[i]+=dt*(w[i]+K*R*Math.sin(psi-th[i])); a[i]+=dt*K*0.5*(mean-a[i]); }
+    }
+    var sx2=0,sy2=0; for(i=0;i<N;i++){ sx2+=Math.cos(th[i]); sy2+=Math.sin(th[i]); }
+    var Rf=Math.sqrt(sx2*sx2+sy2*sy2)/N, lo=Math.min.apply(null,a), hi=Math.max.apply(null,a);
+    return { R:Rf, B:hi>0?lo/hi:0 };
+  }
+  var Ks=[0.0,0.6,0.9,1.4,3.0];
+  for(var i=0;i<Ks.length;i++){
+    var o=sweep(Ks[i]);
+    var rv=document.getElementById('rv'+i), rb=document.getElementById('rb'+i),
+        bar=document.getElementById('bar'+i), st=document.getElementById('stt'+i);
+    if(rv) rv.textContent='R '+o.R.toFixed(3);
+    if(rb) rb.textContent='B '+o.B.toFixed(3);
+    if(bar) bar.style.width=Math.round(o.R*100)+'%';
+    if(st){ st.textContent = o.R<0.4?'flickering color' : (o.R<0.85?'balancing' : 'PURE WHITE COHERENCE');
+            st.className = 'st '+(o.R<0.4?'lo':(o.R<0.85?'mid':'hi')); }
+  }
+})();
+</script>
 </body>
 </html>
