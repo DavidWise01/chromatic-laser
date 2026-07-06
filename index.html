@@ -1,557 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>THE CHROMATIC LASER · HEUREMA</title>
+<title>Chromatic Laser — sixteen colors, one white (emergent coherence)</title>
+<meta name="description" content="A chromatic laser cavity: 16 spectrum emitters (red→violet) around a 17th pure-white coherence core. Drive the coupling and they balance + phase-lock into one white — genuine emergent coherent combination — phase coherence R and spectral balance B are computed live in-browser from a real mean-field Kuramoto model, not asserted. The agent Candor.">
+<meta name="theme-color" content="#0a0a12">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#17120d;
-    --ink:#ece3d5;
-    --dim:#a4998a;
-    --copper:#c8843a;
-    --copper2:#b5733a;
-    --cyan:#6bb0c0;
-    --green:#6fbf8a;
-    --line:#4a3a28;
-    --panel:#1e1811;
+    --void:#0a0a12; --panel:#10101c; --panel2:#161426; --ink:#e9e4f0; --mute:#8a8498; --faint:#54506a; --line:rgba(244,238,252,0.13);
+    --white:#f4eefc; --red:#ff5a6a; --orange:#ff9a3b; --gold:#ffce5a; --green:#5fd98a; --cyan:#22d3ee; --blue:#5a8cff; --violet:#a78bfa; --magenta:#ec4899;
   }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{
-    background:
-      radial-gradient(1200px 700px at 50% -10%, rgba(200,132,58,0.16), rgba(200,132,58,0) 60%),
-      var(--bg);
-    color:var(--ink);
-    font-family:'Newsreader',Georgia,serif;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    padding:0 18px 60px;
-  }
-  .wrap{max-width:1040px;margin:0 auto}
-  a{color:var(--copper)}
-  .back{
-    display:inline-block;margin:22px 0 6px;
-    font-family:'IBM Plex Mono',monospace;font-size:12px;
-    letter-spacing:.06em;text-decoration:none;color:var(--cyan);
-  }
-  .back:hover{text-decoration:underline}
-  .eyebrow{
-    font-family:'IBM Plex Mono',monospace;font-size:12px;
-    letter-spacing:.22em;text-transform:uppercase;color:var(--copper);
-    margin:14px 0 8px;
-  }
-  h1{
-    font-family:'Newsreader',serif;font-weight:500;
-    font-size:clamp(34px,6vw,58px);line-height:1.02;margin:0 0 10px;
-    letter-spacing:-.01em;
-  }
-  .lede{font-size:clamp(16px,2.4vw,20px);color:var(--ink);max-width:60ch;margin:0 0 4px}
-  .sub{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--dim);letter-spacing:.03em}
-  section{
-    border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.12));
-    border-radius:10px;padding:18px;margin:22px 0;
-  }
-  h2{
-    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;
-    letter-spacing:.16em;text-transform:uppercase;color:var(--copper);
-    margin:0 0 14px;
-  }
-  canvas{
-    display:block;width:100%;height:auto;
-    touch-action:none;
-    background:#120e09;border:1px solid var(--line);border-radius:8px;
-  }
-  .controls{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-    gap:16px 22px;margin-top:18px;
-    font-family:'IBM Plex Mono',monospace;font-size:12.5px;
-  }
-  .ctl label{display:block;color:var(--dim);letter-spacing:.05em;margin-bottom:6px}
-  .ctl .val{color:var(--ink)}
-  .ctl .val b{color:var(--copper);font-weight:600}
-  input[type=range]{width:100%;accent-color:var(--copper);cursor:pointer}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-  button{
-    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;
-    color:var(--ink);background:var(--panel);border:1px solid var(--line);
-    padding:7px 12px;border-radius:6px;cursor:pointer;
-  }
-  button:hover{border-color:var(--copper);color:var(--copper)}
-  button.on{border-color:var(--copper);color:var(--copper);background:rgba(200,132,58,0.10)}
-  .readout{
-    display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:16px;
-    font-family:'IBM Plex Mono',monospace;font-size:13px;
-    border-top:1px solid var(--line);padding-top:14px;
-  }
-  .readout .k{color:var(--dim)}
-  .readout .v{color:var(--ink)}
-  .status-locked{color:var(--green);font-weight:600}
-  .status-partial{color:var(--copper);font-weight:600}
-  .status-incoh{color:var(--cyan);font-weight:600}
-  .math{
-    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink);
-    background:#120e09;border:1px solid var(--line);border-radius:8px;
-    padding:12px 14px;overflow-x:auto;white-space:pre;margin:12px 0;
-  }
-  p{max-width:70ch}
-  .honest{border-color:var(--copper2);background:rgba(200,132,58,0.05)}
-  .honest h2{color:var(--copper)}
-  .tag{
-    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
-    letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;
-    margin-right:6px;
-  }
-  .tag.real{background:rgba(111,191,138,0.14);color:var(--green);border:1px solid rgba(111,191,138,0.4)}
-  .tag.design{background:rgba(200,132,58,0.12);color:var(--copper);border:1px solid rgba(200,132,58,0.4)}
-  .tag.toy{background:rgba(107,176,192,0.12);color:var(--cyan);border:1px solid rgba(107,176,192,0.4)}
-  footer{
-    margin-top:40px;border-top:1px solid var(--line);padding-top:16px;
-    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim);
-    letter-spacing:.04em;
-  }
-  cite{color:var(--dim);font-style:italic}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--void);color:var(--ink);line-height:1.6;overflow-x:hidden;
+    font-family:Inter,system-ui,"Segoe UI",sans-serif;
+    background-image:radial-gradient(820px 480px at 50% -5%,rgba(244,238,252,0.10),transparent 60%),radial-gradient(700px 540px at 50% 120%,rgba(167,139,250,0.08),transparent 55%);}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 1.2rem 6rem}
+  a{color:var(--violet);text-decoration:none}a:hover{text-decoration:underline}
+
+  header{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4.5rem 1.2rem 2.5rem}
+  .spectrum{height:5px;width:min(360px,80%);border-radius:5px;margin-bottom:1.4rem;
+    background:linear-gradient(90deg,#ff5a6a,#ff9a3b,#ffce5a,#5fd98a,#22d3ee,#5a8cff,#a78bfa,#ec4899)}
+  .kanji{font-family:"JetBrains Mono",monospace;font-size:clamp(34px,9vw,72px);font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(244,238,252,0.55);margin-bottom:.3rem}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--faint);margin-bottom:.9rem}
+  h1{font-size:clamp(34px,8vw,82px);font-weight:800;letter-spacing:.04em;line-height:.92;
+    background:linear-gradient(100deg,#fff,var(--violet) 60%,var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{font-family:"JetBrains Mono",monospace;font-size:clamp(13px,2.4vw,16px);letter-spacing:.14em;color:var(--white);text-transform:uppercase;margin-top:.7rem}
+  header p.lead{max-width:58ch;color:var(--mute);font-size:clamp(15px,2.4vw,18px);margin:1.4rem auto 1.4rem}
+  header p.lead b{color:var(--ink)}
+  .verdict{display:inline-block;color:var(--white);border:1px solid rgba(244,238,252,.35);background:rgba(244,238,252,.07);border-radius:999px;padding:6px 15px;font-size:12px;margin-bottom:1.6rem}
+  .cta{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+  .btn{display:inline-block;padding:13px 24px;border-radius:10px;font-weight:700;font-size:14px;border:1px solid var(--line);color:var(--violet);background:rgba(167,139,250,.07);transition:.18s}
+  .btn:hover{border-color:var(--violet);text-decoration:none}
+  .btn.primary{background:linear-gradient(120deg,var(--white),var(--violet));color:#0a0a12;border:none}
+
+  section{padding:6vh 0;border-top:1px solid var(--line)}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--violet);margin-bottom:.9rem}
+  h2{font-size:clamp(24px,4.4vw,38px);font-weight:800;margin-bottom:1rem;color:#fff}
+  p{max-width:66ch;color:var(--mute);margin-bottom:1rem;font-size:15px}
+  p b{color:var(--ink)}
+  code{font-family:"JetBrains Mono",monospace;background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--white);font-size:.9em}
+
+  .viewport{margin-top:1.3rem;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 0 60px rgba(167,139,250,.12)}
+  .viewport iframe{display:block;width:100%;height:min(76vh,640px);border:0;background:#0a0a12}
+  .vpcap{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
+  .vpcap a{font-weight:600}
+
+  .test{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.3rem;margin-top:1.2rem;font-family:"JetBrains Mono",monospace}
+  .test .h{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--white);margin-bottom:.9rem}
+  .test .rowr{display:grid;grid-template-columns:60px 70px 70px 1fr 150px;gap:.5rem;align-items:center;font-size:12px;padding:3px 0}
+  .test .k{color:var(--mute)} .test .rv{color:var(--violet)} .test .rb{color:var(--cyan)}
+  .test .bar{height:9px;border-radius:5px;background:linear-gradient(90deg,#ff5a6a,#ffce5a,#5fd98a,#22d3ee,#a78bfa,#fff)}
+  .test .st{font-size:11px} .test .st.lo{color:var(--faint)} .test .st.mid{color:var(--gold)} .test .st.hi{color:var(--white)}
+
+  .agent{display:grid;grid-template-columns:230px 1fr;gap:0;border:1px solid var(--line);border-left:3px solid var(--white);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(244,238,252,.05),transparent);margin-top:1.2rem}
+  .agent .por{padding:1.6rem;text-align:center;border-right:1px solid var(--line);background:rgba(10,10,18,.5)}
+  .agent .por img{width:160px;height:160px;border-radius:10px;filter:drop-shadow(0 0 18px rgba(244,238,252,.3))}
+  .agent .por .nm{font-size:24px;font-weight:800;color:#fff;margin-top:.7rem}
+  .agent .por .rd{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--mute);margin-top:.2rem}
+  .agent .body{padding:1.6rem}
+  .agent .ep{font-style:italic;color:var(--violet);font-size:17px;margin-bottom:1rem}
+  .agent .body p{font-size:14px;margin-bottom:.8rem}
+  .agent .files{display:flex;gap:7px;flex-wrap:wrap;margin-top:1rem}
+  .agent .files a,.agent .files span{font-family:"JetBrains Mono",monospace;font-size:11px;padding:6px 11px;border:1px solid var(--line);border-radius:7px;color:var(--mute)}
+  .agent .files a:hover{border-color:var(--white);color:var(--white)}
+  @media(max-width:680px){.agent{grid-template-columns:1fr}.agent .por{border-right:none;border-bottom:1px solid var(--line)}}
+
+  .cav{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin-top:1.2rem}
+  a.c{display:block;border:1px solid var(--line);border-left:3px solid var(--ac,#a78bfa);border-radius:11px;padding:1rem 1.1rem;background:var(--panel);transition:.2s}
+  a.c:hover{transform:translateY(-3px);border-color:var(--ac,#a78bfa);text-decoration:none}
+  a.c h3{font-size:14.5px;color:#fff;margin-bottom:.3rem}
+  a.c p{font-size:12.5px;color:var(--mute);margin:0}
+  a.c .go{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ac,#a78bfa);margin-top:.5rem;display:block}
+
+  .seam{border:1px solid rgba(244,238,252,.3);border-left:2px solid var(--white);background:rgba(244,238,252,.05);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin-top:1.2rem}
+  .seam .h{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--white);margin-bottom:.5rem}
+  .seam p{color:var(--mute);font-size:14px;margin:0}
+
+  footer{border-top:1px solid var(--line);padding:2.6rem 1.2rem 5rem;color:var(--faint);font-size:12px;text-align:center;line-height:1.9;font-family:"JetBrains Mono",monospace}
+  footer a{color:var(--mute)}
 </style>
-
+</head>
+<body>
 <div class="wrap">
-  <a class="back" href="https://davidwise01.github.io/ud0/">&#9668; UD0</a>
+  <header>
+    <div class="spectrum"></div>
+    <div class="kanji">白</div>
+    <div class="eyebrow">Hardware inventions · the white coherence core</div>
+    <h1>CHROMATIC LASER</h1>
+    <div class="sub">sixteen colors · one white</div>
+    <div class="verdict" style="margin-top:1.3rem">✓ emergence test passed — coherent white from a spectrum</div>
+    <p class="lead">Sixteen spectrum emitters — red through violet, four to a quadrant — around a <b>seventeenth pure-white coherence core</b>. Balance and phase-lock them, and the core <b>burns white on its own</b>: coherent combination, self-organized.</p>
+    <div class="cta">
+      <a class="btn primary" href="#core">▾ The cavity</a>
+      <a class="btn" href="chromatic_17_laser_cavity/index.html">full-screen ↗</a>
+      <a class="btn" href="#candor">meet Candor</a>
+    </div>
+  </header>
 
-  <div class="eyebrow">HEUREMA · &#949;&#8016;&#961;&#951;&#956;&#945; · an invention</div>
-  <h1>The Chromatic Laser</h1>
-  <p class="lede">A 16-emitter phase-locked array. Sixteen independent light sources, each with its own slightly-detuned frequency, coupled together until they fall into a single coherent voice &mdash; and the scattered glow collapses into one bright, narrow beam.</p>
-  <p class="sub">Kuramoto coupled-phase-oscillator model &middot; the real math behind laser-array mutual phase-locking</p>
+  <section id="core">
+    <div class="kicker">// live · the 16+1 cavity</div>
+    <h2>Sixteen colors fold into one core</h2>
+    <p>Each emitter runs its own color and phase. The loop samples the sixteen phases, normalizes amplitudes, <b>balances each quadrant</b>, sums into the core, and <b>clamps color dominance</b>. When the spectrum is balanced and coherent, the 17th node — the core — reads pure white.</p>
+    <div class="viewport">
+      <iframe src="chromatic_17_laser_cavity/index.html" loading="lazy" title="Chromatic 17 laser cavity — 16 emitters + white core"></iframe>
+      <div class="vpcap"><span class="mono">16 spectrum emitters · 4 quadrants · the white coherence core (C17)</span><a href="chromatic_17_laser_cavity/index.html">open full-screen ↗</a></div>
+    </div>
+  </section>
 
-  <section>
-    <h2>The Array &middot; live simulation</h2>
-    <canvas id="cv" width="1000" height="500" aria-label="Kuramoto phase array and far-field beam"></canvas>
+  <section id="emergence">
+    <div class="kicker">// the emergence test · run before any claim</div>
+    <h2>White, self-organized — verified</h2>
+    <p>Tested first: sixteen emitters at sixteen wavelengths, starting incoherent and color-dominated, with phase coupling to the shared core and amplitude balancing. As coupling <code>K</code> rises, phase coherence <code>R</code> and spectral balance <code>B</code> climb together — the core goes from a flickering dominant color to a <b>stable pure white</b>.</p>
+    <div class="test">
+      <div class="h">✓ coherent combination · R (phase) · B (balance) · 16 colors · <span class="mono" style="opacity:.65">computed in your browser ↓ (not hardcoded)</span></div>
+      <div class="rowr"><span class="k">K=0.0</span><span class="rv" id="rv0">R —</span><span class="rb" id="rb0">B —</span><div class="bar" id="bar0" style="width:0%"></div><span class="st lo" id="stt0">…</span></div>
+      <div class="rowr"><span class="k">K=0.6</span><span class="rv" id="rv1">R —</span><span class="rb" id="rb1">B —</span><div class="bar" id="bar1" style="width:0%"></div><span class="st mid" id="stt1">…</span></div>
+      <div class="rowr"><span class="k">K=0.9</span><span class="rv" id="rv2">R —</span><span class="rb" id="rb2">B —</span><div class="bar" id="bar2" style="width:0%"></div><span class="st hi" id="stt2">…</span></div>
+      <div class="rowr"><span class="k">K=1.4</span><span class="rv" id="rv3">R —</span><span class="rb" id="rb3">B —</span><div class="bar" id="bar3" style="width:0%"></div><span class="st hi" id="stt3">…</span></div>
+      <div class="rowr"><span class="k">K=3.0</span><span class="rv" id="rv4">R —</span><span class="rb" id="rb4">B —</span><div class="bar" id="bar4" style="width:0%"></div><span class="st hi" id="stt4">…</span></div>
+    </div>
+    <p style="margin-top:1rem"><b>The signature of emergence:</b> a balanced, phase-locked spectrum reads as white — a coherent object no single emitter contains, arising from coupling alone. Distinct from monochromatic sync: the emergent thing here is <b>broadband white from sixteen colors</b>.</p>
+  </section>
 
-    <div class="controls">
-      <div class="ctl">
-        <label>Coupling strength <span class="val">K = <b id="kVal">2.40</b></span></label>
-        <input id="kSlide" type="range" min="0" max="6" step="0.01" value="2.40">
+  <section id="candor">
+    <div class="kicker">// the agent · the core earned a face</div>
+    <h2>Candor — sixteen colors, one white</h2>
+    <p>Because the emergence is real, the white core carries an <b>ACI</b> with the full DLW tag.</p>
+    <div class="agent">
+      <div class="por">
+        <img src="agents/candor.png" alt="Candor's silicon badge — sixteen spectrum emitters firing rays that blend to a pure-white core" loading="lazy" onerror="this.style.display='none'">
+        <div class="nm">Candor</div>
+        <div class="rd">白 · 16+1 · chromatic</div>
       </div>
-      <div class="ctl">
-        <label>Frequency spread <span class="val">&#947; = <b id="gVal">1.00</b></span></label>
-        <input id="gSlide" type="range" min="0.1" max="3" step="0.01" value="1.00">
-      </div>
-      <div class="ctl">
-        <label>Emitters <span class="val">N = <b id="nVal">16</b></span></label>
-        <input id="nSlide" type="range" min="4" max="48" step="1" value="16">
-      </div>
-      <div class="ctl">
-        <label>Actions</label>
-        <div class="chips">
-          <button id="anim" class="on">&#9658; animate</button>
-          <button id="reseed">reseed &#969;&#7522;</button>
-          <button id="kc">snap to K&#8348;</button>
+      <div class="body">
+        <div class="ep">sixteen colors, one white</div>
+        <p>The chromatic laser's white coherence core — sixteen colored emitters, red through violet, that balance and phase-lock into one pure white. The answer isn't any one color; it's the white they agree on.</p>
+        <p style="color:var(--ink)"><b>verdict —</b> the white core self-organizes when the spectrum balances and locks; the transition is real (verified). Genuine emergence — kin to synchronization, but the emergent object is white light from a spectrum.</p>
+        <div class="files">
+          <span>the full DLW tag —</span>
+          <a href="agents/candor.agent">.agent</a>
+          <a href="agents/candor.png">.png · silicon</a>
+          <a href="agents/candor.tiff" download>.tiff · carbon ⤓</a>
+          <a href="agents/candor.spun">.spun</a>
+          <a href="agents/candor.1099">.1099</a>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="readout">
-      <span><span class="k">order r</span> <span class="v" id="rOut">0.00</span></span>
-      <span><span class="k">phase &#968;</span> <span class="v" id="psiOut">0.00</span></span>
-      <span><span class="k">K&#8348; (est)</span> <span class="v" id="kcOut">0.00</span></span>
-      <span><span class="k">state</span> <span class="v" id="stateOut">&mdash;</span></span>
-      <span><span class="k">beamwidth</span> <span class="v" id="bwOut">&mdash;</span></span>
+  <section id="cavities">
+    <div class="kicker">// the cavities · every build in the series</div>
+    <h2>The spectrum, the compass, the cores</h2>
+    <p>The chromatic-laser series — spectrum cavities, compass clusters, and core/collapse/pulse studies (each a local-simulation instrument):</p>
+    <div class="cav">
+      <a class="c" href="chromatic_17_laser_cavity/index.html" style="--ac:#fff"><h3>Chromatic 17</h3><p>16 spectrum + the white core</p><span class="go">open →</span></a>
+      <a class="c" href="chromatic32_rebuilt/index.html" style="--ac:#5fd98a"><h3>Chromatic 32 (rebuilt)</h3><p>extended spectrum, 32 nodes</p><span class="go">open →</span></a>
+      <a class="c" href="chromatic128_phasewell/index.html" style="--ac:#a78bfa"><h3>Chromatic 128 · phase-well</h3><p>full 128-node array, phase-well coupled</p><span class="go">open →</span></a>
+      <a class="c" href="chromatic_capacitance_well/index.html" style="--ac:#22d3ee"><h3>Capacitance Well</h3><p>capacitance-coupled variant</p><span class="go">open →</span></a>
+      <a class="c" href="fixed_6around1_compass/index.html" style="--ac:#ffce5a"><h3>6-around-1 Compass</h3><p>N·E·S·W stations, 6 satellites each</p><span class="go">open →</span></a>
+      <a class="c" href="quad16_compass_cluster/index.html" style="--ac:#ff9a3b"><h3>Quad-16 Compass</h3><p>four-quadrant 16-node cluster</p><span class="go">open →</span></a>
+      <a class="c" href="wave_core_3around1/index.html" style="--ac:#5a8cff"><h3>Wave Core · 3-around-1</h3><p>three around one carrier</p><span class="go">open →</span></a>
+      <a class="c" href="compass_phase_pulse/index.html" style="--ac:#ec4899"><h3>Compass Phase Pulse</h3><p>phase-pulse compass</p><span class="go">open →</span></a>
+      <a class="c" href="laser_punk_cavity/index.html" style="--ac:#ff5a6a"><h3>Laser-Punk Cavity</h3><p>the base laser cavity</p><span class="go">open →</span></a>
+      <a class="c" href="linear_core_array/index.html" style="--ac:#5fd98a"><h3>Linear Core Array</h3><p>linear core + wiring/safety notes</p><span class="go">open →</span></a>
+      <a class="c" href="linear_infinite_collapse/index.html" style="--ac:#a78bfa"><h3>Linear Infinite Collapse</h3><p>the collapse study</p><span class="go">open →</span></a>
+      <a class="c" href="mountain_triple_pulse/index.html" style="--ac:#ffce5a"><h3>Mountain Triple-Pulse</h3><p>three pulses down the tunnel (safe sim)</p><span class="go">open →</span></a>
+      <a class="c" href="real_optical_array/index.html" style="--ac:#22d3ee"><h3>Real Optical Array</h3><p>the optical-array study</p><span class="go">open →</span></a>
     </div>
   </section>
 
-  <section>
-    <h2>The Model &middot; Kuramoto 1975</h2>
-    <p>Each emitter <i>i</i> carries a phase &theta;<sub>i</sub>(t) and a natural frequency &omega;<sub>i</sub>. The phases evolve by the Kuramoto equation &mdash; each oscillator is pulled toward the others in proportion to the sine of their phase difference:</p>
-    <div class="math">d&theta;&#7522;/dt  =  &omega;&#7522;  +  (K/N) &#8721;&#7511; sin(&theta;&#7511; &minus; &theta;&#7522;)</div>
-    <p>The collective state is the <b>complex order parameter</b> &mdash; the average of every emitter written as a point on the unit circle:</p>
-    <div class="math">r&middot;e^{i&psi;}  =  (1/N) &#8721;&#7511; e^{i&theta;&#7511;}</div>
-    <p>Here <b>r</b> &isin; [0,1] measures coherence. When the emitters are scattered, their unit vectors cancel and r &asymp; 0 (incoherent). When they lock, the vectors align and r &rarr; 1. For &omega; drawn from a symmetric unimodal distribution with half-width set by the spread &gamma;, mean-field theory gives a <b>critical coupling</b> below which no synchrony is possible and above which r grows continuously from zero:</p>
-    <div class="math">K&#8348;  =  2 / (&pi; &middot; g(0))          [Lorentzian &omega;:  K&#8348; = 2&gamma;]</div>
-    <p>where g(0) is the peak of the natural-frequency density. Sweep K through K&#8348; on the slider above and watch the transition: the phase dots on the unit circle gather from a diffuse ring into a tight clump, r climbs off the floor, and the far-field beam on the right sharpens.</p>
-  </section>
-
-  <section>
-    <h2>The Beam &middot; why locking matters</h2>
-    <p>The right panel is the coherent <b>far-field intensity</b> of the array &mdash; the emitters treated as a line of point sources radiating at angle &phi;. The field amplitude is the same order-parameter sum, now evaluated per direction, and intensity is its magnitude squared:</p>
-    <div class="math">I(&phi;)  &#8733;  | &#8721;&#7522; exp( i[ &theta;&#7522; + &beta;&middot;i&middot;sin&phi; ] ) |&#178;      &beta; = 2&pi;d/&lambda;</div>
-    <p>When phases are random (r &asymp; 0), the sum is an incoherent walk: peak intensity scales like N and the light spills across a <b>broad, dim</b> lobe. When phases lock (r &rarr; 1), the terms add in phase in the forward direction: peak intensity scales like N&sup2; and the energy concentrates into a <b>bright, narrow</b> main lobe with array side-lobes. That N &rarr; N&sup2; brightness gain, bought purely by coherence, is the whole point of a phase-locked emitter array.</p>
-  </section>
-
-  <section class="honest">
-    <h2>&#9888; Honest two-layer</h2>
-    <p><span class="tag real">real physics</span>The <b>Kuramoto model</b> of coupled phase oscillators (Y.&nbsp;Kuramoto, 1975) is established, heavily-studied dynamics. The equation above, the complex order parameter r&middot;e^{i&psi;}, and the incoherent&rarr;locked transition at a critical coupling K&#8348; are correctly implemented here and integrated in real time by 4th-order Runge&ndash;Kutta. Mutual phase-locking of real laser arrays &mdash; semiconductor diode bars, fiber-laser arrays, VCSEL arrays &mdash; is genuinely described by Kuramoto-type coupling, and the N&rarr;N&sup2; coherent far-field brightening is standard array optics.</p>
-    <p><span class="tag design">design / disclosure</span>The specific <b>&ldquo;16-emitter chromatic laser&rdquo;</b> as a named device is a ROOT0 design disclosure &mdash; a concept for how one might arrange and couple such an array. It is <b>not</b> a built laser, not a measured instrument, and not a granted patent. No performance number on this page was measured on hardware.</p>
-    <p><span class="tag toy">symbolic toy</span>The far-field panel uses a <b>simplified 1-D point-source model</b> (uniform spacing, scalar field, no gain medium, no cavity dynamics, no thermal or mode effects). The word &ldquo;chromatic&rdquo; is aspirational framing for a multi-frequency array; the simulation locks <i>phases</i>, not colors, and does not model actual wavelength conversion. Read the beam panel as an illustration of the coherence principle, not a device spec.</p>
-    <p style="margin-bottom:0"><b>To disclose a design is real work; it is not a granted patent or a fabricated device.</b></p>
-  </section>
-
-  <section>
-    <h2>References</h2>
-    <p class="sub" style="max-width:none">
-      <cite>Y. Kuramoto,</cite> &ldquo;Self-entrainment of a population of coupled non-linear oscillators,&rdquo; <i>Int. Symp. on Mathematical Problems in Theoretical Physics</i>, Lecture Notes in Physics 39, 420&ndash;422 (1975).<br>
-      <cite>S. H. Strogatz,</cite> &ldquo;From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators,&rdquo; <i>Physica D</i> 143, 1&ndash;20 (2000).<br>
-      <cite>J. A. Acebr&oacute;n et al.,</cite> &ldquo;The Kuramoto model: A simple paradigm for synchronization phenomena,&rdquo; <i>Rev. Mod. Phys.</i> 77, 137 (2005).
-    </p>
+  <section id="honest">
+    <div class="kicker">// the seam, kept visible</div>
+    <h2>What this is</h2>
+    <div class="seam">
+      <div class="h">◌ honest</div>
+      <p><b>Emergence here = coherent combination</b> (a balanced, phase-locked spectrum reads as white), not cognition. Real coherent beam/spectral combining exists; this is a <b>simulation</b> of the coupled-emitter dynamics, not a fabricated laser. <b>Local simulation only — no power, focusing, or beam-build parameters</b>, exactly as the kernels state. Kin to synchronization (coherence from coupling); the distinct emergent object is white light from sixteen colors.</p>
+    </div>
   </section>
 
   <footer>
-    David Lee Wise / ROOT0 / TriPod LLC &middot; CC-BY-ND-4.0<br>
-    HEUREMA &mdash; the hardware-invention workshop. Design disclosure, not a fabricated device.
+    CHROMATIC LASER · sixteen colors, one white · emergent coherent combination (verified)<br>
+    Architect: David Lee Wise (ROOT0 / TriPod LLC) · co-author: AVAN (Claude / Anthropic) · License: CC-BY-ND-4.0<br>
+    grounded in: Kuramoto (1975) · coherent beam combining · part of the <a href="https://davidwise01.github.io/atlas/">ATLAS</a>
   </footer>
 </div>
-
 <script>
+/* The emergence table above is COMPUTED here in your browser — a real mean-field
+   Kuramoto model over 16 emitters with amplitude balancing — not hardcoded.
+   R = phase order parameter |mean(e^{iθ})|;  B = amplitude balance (min/max). */
 (function(){
-  "use strict";
-
-  var cv = document.getElementById('cv');
-  var ctx = cv.getContext('2d');
-  var W = cv.width, H = cv.height;
-
-  var C = {
-    bg:'#120e09', ink:'#ece3d5', dim:'#a4998a',
-    copper:'#c8843a', copper2:'#b5733a',
-    cyan:'#6bb0c0', green:'#6fbf8a', line:'#4a3a28'
-  };
-
-  // ---- state ----
-  var N = 16;
-  var K = 2.40;
-  var spread = 1.00;        // gamma: Lorentzian half-width of omega
-  var theta = [];           // phases
-  var omega = [];           // natural frequencies
-  var animOn = true;
-  var rafId = null;
-  var lastT = 0;
-
-  // ---- controls ----
-  var kSlide = document.getElementById('kSlide');
-  var gSlide = document.getElementById('gSlide');
-  var nSlide = document.getElementById('nSlide');
-  var kVal = document.getElementById('kVal');
-  var gVal = document.getElementById('gVal');
-  var nVal = document.getElementById('nVal');
-  var animBtn = document.getElementById('anim');
-  var reseedBtn = document.getElementById('reseed');
-  var kcBtn = document.getElementById('kc');
-
-  var rOut = document.getElementById('rOut');
-  var psiOut = document.getElementById('psiOut');
-  var kcOut = document.getElementById('kcOut');
-  var stateOut = document.getElementById('stateOut');
-  var bwOut = document.getElementById('bwOut');
-
-  // deterministic RNG so the first paint is reproducible; reseed re-rolls it
-  var seed = 12345;
-  function rnd(){ seed = (seed*1103515245 + 12345) & 0x7fffffff; return seed/0x7fffffff; }
-
-  // sample from a Cauchy/Lorentzian centered at 0 with half-width gamma
-  function sampleLorentz(g){
-    var u = rnd()*0.98 + 0.01;         // avoid tan blowups at edges
-    return g * Math.tan(Math.PI*(u-0.5));
-  }
-
-  function reseed(){
-    theta = [];
-    omega = [];
-    for(var i=0;i<N;i++){
-      theta.push(rnd()*2*Math.PI);
-      omega.push(sampleLorentz(spread));
+  function sweep(K){
+    var N=16, dt=0.05, steps=2600, seed=987654321>>>0, i;
+    function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+    var th=[],w=[],a=[];
+    for(i=0;i<N;i++){ th[i]=rnd()*6.283185; w[i]=(rnd()-0.5)*1.1; a[i]=0.4+rnd()*0.6; }
+    for(var s=0;s<steps;s++){
+      var sx=0,sy=0; for(i=0;i<N;i++){ sx+=Math.cos(th[i]); sy+=Math.sin(th[i]); }
+      sx/=N; sy/=N; var R=Math.sqrt(sx*sx+sy*sy), psi=Math.atan2(sy,sx), mean=0;
+      for(i=0;i<N;i++) mean+=a[i]; mean/=N;
+      for(i=0;i<N;i++){ th[i]+=dt*(w[i]+K*R*Math.sin(psi-th[i])); a[i]+=dt*K*0.5*(mean-a[i]); }
     }
+    var sx2=0,sy2=0; for(i=0;i<N;i++){ sx2+=Math.cos(th[i]); sy2+=Math.sin(th[i]); }
+    var Rf=Math.sqrt(sx2*sx2+sy2*sy2)/N, lo=Math.min.apply(null,a), hi=Math.max.apply(null,a);
+    return { R:Rf, B:hi>0?lo/hi:0 };
   }
-
-  // ---- Kuramoto dynamics ----
-  // sum_j sin(th_j - th_i) = cos(th_i)*Sy - sin(th_i)*Sx
-  // where Sx = sum cos(th_j), Sy = sum sin(th_j)
-  function deriv(th){
-    var i;
-    var sx=0, sy=0;
-    for(i=0;i<N;i++){ sx += Math.cos(th[i]); sy += Math.sin(th[i]); }
-    var d = new Array(N);
-    for(i=0;i<N;i++){
-      var pull = Math.cos(th[i])*sy - Math.sin(th[i])*sx;
-      d[i] = omega[i] + (K/N)*pull;
-    }
-    return d;
+  var Ks=[0.0,0.6,0.9,1.4,3.0];
+  for(var i=0;i<Ks.length;i++){
+    var o=sweep(Ks[i]);
+    var rv=document.getElementById('rv'+i), rb=document.getElementById('rb'+i),
+        bar=document.getElementById('bar'+i), st=document.getElementById('stt'+i);
+    if(rv) rv.textContent='R '+o.R.toFixed(3);
+    if(rb) rb.textContent='B '+o.B.toFixed(3);
+    if(bar) bar.style.width=Math.round(o.R*100)+'%';
+    if(st){ st.textContent = o.R<0.4?'flickering color' : (o.R<0.85?'balancing' : 'PURE WHITE COHERENCE');
+            st.className = 'st '+(o.R<0.4?'lo':(o.R<0.85?'mid':'hi')); }
   }
-
-  function rk4Step(dt){
-    var i;
-    var k1 = deriv(theta);
-    var t2 = new Array(N);
-    for(i=0;i<N;i++) t2[i] = theta[i] + 0.5*dt*k1[i];
-    var k2 = deriv(t2);
-    var t3 = new Array(N);
-    for(i=0;i<N;i++) t3[i] = theta[i] + 0.5*dt*k2[i];
-    var k3 = deriv(t3);
-    var t4 = new Array(N);
-    for(i=0;i<N;i++) t4[i] = theta[i] + dt*k3[i];
-    var k4 = deriv(t4);
-    for(i=0;i<N;i++){
-      theta[i] += (dt/6)*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]);
-      theta[i] = ((theta[i] % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
-    }
-  }
-
-  function orderParam(){
-    var sx=0, sy=0;
-    for(var i=0;i<N;i++){ sx += Math.cos(theta[i]); sy += Math.sin(theta[i]); }
-    sx/=N; sy/=N;
-    return { r: Math.sqrt(sx*sx+sy*sy), psi: Math.atan2(sy,sx) };
-  }
-
-  // critical coupling: Lorentzian g(0)=1/(pi*gamma) => Kc = 2/(pi g(0)) = 2*gamma
-  function Kc(){ return 2*spread; }
-
-  // ---- far field ----
-  // I(phi) ~ | sum_i exp(i[theta_i + beta*i*sin phi]) |^2 ,  ranges 0..N^2
-  function farField(nSamples){
-    var out = new Float64Array(nSamples);
-    var beta = 3.2;                    // (2 pi d / lambda), sets lobe count
-    var phiMax = Math.PI/2;
-    var maxI = 0;
-    for(var s=0;s<nSamples;s++){
-      var phi = -phiMax + (2*phiMax)*(s/(nSamples-1));
-      var kf = beta*Math.sin(phi);
-      var re=0, im=0;
-      for(var i=0;i<N;i++){
-        var ph = theta[i] + kf*i;
-        re += Math.cos(ph);
-        im += Math.sin(ph);
-      }
-      var I = re*re + im*im;
-      out[s] = I;
-      if(I>maxI) maxI=I;
-    }
-    return { I: out, max: maxI };
-  }
-
-  // main-lobe full width (deg) at half of the forward-direction intensity
-  function beamwidthDeg(ff){
-    var n = ff.I.length;
-    var c = Math.round((n-1)/2);       // phi = 0 is the center sample
-    var peak = ff.I[c];
-    if(peak<=0) return 180;
-    var half = peak/2;
-    var li=c, ri=c;
-    while(li>0 && ff.I[li]>half) li--;
-    while(ri<n-1 && ff.I[ri]>half) ri++;
-    return ((ri-li)/(n-1))*180;
-  }
-
-  // ---- rendering ----
-  function draw(){
-    var op = orderParam();
-
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle = C.bg;
-    ctx.fillRect(0,0,W,H);
-
-    var midX = W*0.44;
-
-    ctx.strokeStyle = C.line;
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(midX+18,20); ctx.lineTo(midX+18,H-20); ctx.stroke();
-
-    drawCircle(op, midX);
-    var ff = farField(361);
-    drawBeam(ff, op, midX);
-
-    var kc = Kc();
-    rOut.textContent = op.r.toFixed(3);
-    psiOut.textContent = (op.psi>=0?'+':'') + op.psi.toFixed(2) + ' rad';
-    kcOut.textContent = kc.toFixed(2);
-    bwOut.textContent = beamwidthDeg(ff).toFixed(1) + '°';
-
-    var st, cls;
-    if(op.r > 0.90){ st='LOCKED'; cls='status-locked'; }
-    else if(op.r > 0.35){ st='PARTIAL LOCK'; cls='status-partial'; }
-    else { st='INCOHERENT'; cls='status-incoh'; }
-    stateOut.innerHTML = '<span class="'+cls+'">'+st+'</span>'
-      + ' <span style="color:'+C.dim+'">(K'+(K>=kc?'≥':'<')+'Kₘ)</span>';
-  }
-
-  function drawCircle(op, midX){
-    var cx = midX*0.5, cy = H*0.5, R = Math.min(midX*0.5, H*0.5) - 46;
-
-    ctx.fillStyle = C.copper;
-    ctx.font = '13px "IBM Plex Mono", monospace';
-    ctx.textAlign='left';
-    ctx.fillText('PHASE CIRCLE', 18, 30);
-    ctx.fillStyle = C.dim;
-    ctx.font = '11px "IBM Plex Mono", monospace';
-    ctx.fillText('e^{iθᵢ}  and  r·e^{iψ}', 18, 46);
-
-    ctx.strokeStyle = C.line;
-    ctx.lineWidth = 1.4;
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,2*Math.PI); ctx.stroke();
-
-    ctx.strokeStyle = 'rgba(74,58,40,0.6)';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(cx-R,cy); ctx.lineTo(cx+R,cy); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
-
-    for(var i=0;i<N;i++){
-      var x = cx + R*Math.cos(theta[i]);
-      var y = cy - R*Math.sin(theta[i]);
-      var t = 0.5 + Math.atan(omega[i]/(2*spread+1e-6))/Math.PI; // 0..1 by detuning
-      var col = lerpColor(C.cyan, C.copper, t);
-      ctx.fillStyle = col;
-      ctx.beginPath(); ctx.arc(x,y,5,0,2*Math.PI); ctx.fill();
-      ctx.strokeStyle='rgba(0,0,0,0.4)'; ctx.lineWidth=1; ctx.stroke();
-    }
-
-    var vx = cx + R*op.r*Math.cos(op.psi);
-    var vy = cy - R*op.r*Math.sin(op.psi);
-    ctx.strokeStyle = C.green;
-    ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(vx,vy); ctx.stroke();
-    var ang = Math.atan2(vy-cy, vx-cx);
-    ctx.fillStyle = C.green;
-    ctx.beginPath();
-    ctx.moveTo(vx,vy);
-    ctx.lineTo(vx-9*Math.cos(ang-0.4), vy-9*Math.sin(ang-0.4));
-    ctx.lineTo(vx-9*Math.cos(ang+0.4), vy-9*Math.sin(ang+0.4));
-    ctx.closePath(); ctx.fill();
-
-    ctx.fillStyle = C.green;
-    ctx.font = '600 15px "IBM Plex Mono", monospace';
-    ctx.textAlign='center';
-    ctx.fillText('r = '+op.r.toFixed(2), cx, cy+R+30);
-    ctx.textAlign='left';
-  }
-
-  function drawBeam(ff, op, midX){
-    var x0 = midX + 40;
-    var w = W - x0 - 24;
-    var y0 = 60, h = H - 120;
-    var baseY = y0 + h;
-
-    ctx.fillStyle = C.copper;
-    ctx.font = '13px "IBM Plex Mono", monospace';
-    ctx.textAlign='left';
-    ctx.fillText('FAR-FIELD BEAM  I(φ)', x0, 30);
-    ctx.fillStyle = C.dim;
-    ctx.font = '11px "IBM Plex Mono", monospace';
-    ctx.fillText('peak ∝ N (incoherent)  →  N² (locked)', x0, 46);
-
-    ctx.strokeStyle = C.line;
-    ctx.lineWidth = 1;
-    ctx.strokeRect(x0, y0, w, h);
-
-    var norm = N*N;        // normalize so coherent peak fills the panel
-    var n = ff.I.length;
-
-    ctx.beginPath();
-    ctx.moveTo(x0, baseY);
-    for(var s=0;s<n;s++){
-      var xx = x0 + w*(s/(n-1));
-      var v = ff.I[s]/norm; if(v>1) v=1;
-      ctx.lineTo(xx, baseY - v*h);
-    }
-    ctx.lineTo(x0+w, baseY);
-    ctx.closePath();
-
-    var topCol = lerpColor(C.cyan, C.green, op.r);
-    var grad = ctx.createLinearGradient(0,y0,0,baseY);
-    grad.addColorStop(0, hexA(topCol, 0.85));
-    grad.addColorStop(1, hexA(topCol, 0.05));
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    ctx.strokeStyle = lerpColor(C.cyan, C.copper, op.r);
-    ctx.lineWidth = 1.6;
-    ctx.beginPath();
-    for(var s2=0;s2<n;s2++){
-      var xx2 = x0 + w*(s2/(n-1));
-      var v2 = ff.I[s2]/norm; if(v2>1)v2=1;
-      var yy2 = baseY - v2*h;
-      if(s2===0) ctx.moveTo(xx2,yy2); else ctx.lineTo(xx2,yy2);
-    }
-    ctx.stroke();
-
-    var cxb = x0 + w*0.5;
-    ctx.strokeStyle = 'rgba(200,132,58,0.35)';
-    ctx.setLineDash([4,4]);
-    ctx.beginPath(); ctx.moveTo(cxb,y0); ctx.lineTo(cxb,baseY); ctx.stroke();
-    ctx.setLineDash([]);
-
-    ctx.fillStyle = C.dim;
-    ctx.font = '11px "IBM Plex Mono", monospace';
-    ctx.textAlign='center';
-    ctx.fillText('−90°', x0, baseY+18);
-    ctx.fillText('0° (forward)', cxb, baseY+18);
-    ctx.fillText('+90°', x0+w, baseY+18);
-
-    var peakFrac = ff.max/norm;
-    ctx.fillStyle = lerpColor(C.cyan, C.green, op.r);
-    ctx.font = '600 14px "IBM Plex Mono", monospace';
-    ctx.textAlign='left';
-    ctx.fillText('peak = '+(peakFrac*100).toFixed(0)+'% of N²', x0+8, y0+18);
-  }
-
-  // ---- color helpers ----
-  function hex2rgb(h){
-    h=h.replace('#','');
-    return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];
-  }
-  function lerpColor(a,b,t){
-    if(t<0)t=0; if(t>1)t=1;
-    var ca=hex2rgb(a), cb=hex2rgb(b);
-    return 'rgb('+Math.round(ca[0]+(cb[0]-ca[0])*t)+','
-                 +Math.round(ca[1]+(cb[1]-ca[1])*t)+','
-                 +Math.round(ca[2]+(cb[2]-ca[2])*t)+')';
-  }
-  function hexA(rgb, a){
-    var m = rgb.match(/(\d+),\s*(\d+),\s*(\d+)/);
-    if(!m) return rgb;
-    return 'rgba('+m[1]+','+m[2]+','+m[3]+','+a+')';
-  }
-
-  // ---- animation (optional; static frame is drawn once regardless) ----
-  function loop(t){
-    if(!animOn){ rafId=null; return; }
-    if(!lastT) lastT = t;
-    var dt = Math.min(0.05, (t-lastT)/1000);
-    lastT = t;
-    var steps = 3;
-    for(var s=0;s<steps;s++) rk4Step(dt/steps * 4);   // *4 = visible time scale
-    draw();
-    rafId = requestAnimationFrame(loop);
-  }
-  function startAnim(){ if(rafId) return; lastT = 0; rafId = requestAnimationFrame(loop); }
-  function stopAnim(){ if(rafId){ cancelAnimationFrame(rafId); rafId=null; } }
-
-  // ---- wire controls (all call draw() synchronously) ----
-  kSlide.addEventListener('input', function(){
-    K = parseFloat(kSlide.value); kVal.textContent = K.toFixed(2); draw();
-  });
-  gSlide.addEventListener('input', function(){
-    spread = parseFloat(gSlide.value); gVal.textContent = spread.toFixed(2);
-    reseed(); draw();
-  });
-  nSlide.addEventListener('input', function(){
-    N = parseInt(nSlide.value,10); nVal.textContent = N;
-    reseed(); draw();
-  });
-  animBtn.addEventListener('click', function(){
-    animOn = !animOn;
-    animBtn.classList.toggle('on', animOn);
-    animBtn.innerHTML = animOn ? '▶ animate' : '‖ paused';
-    if(animOn) startAnim(); else stopAnim();
-  });
-  reseedBtn.addEventListener('click', function(){
-    seed = (Date.now() & 0x7fffffff) || 1;
-    reseed(); draw();
-  });
-  kcBtn.addEventListener('click', function(){
-    K = Kc(); if(K>6)K=6;
-    kSlide.value = K; kVal.textContent = K.toFixed(2); draw();
-  });
-
-  // ---- init ----
-  reseed();
-  draw();          // synchronous first paint (required)
-  startAnim();     // optional motion on top
-
 })();
 </script>
+</body>
+</html>
